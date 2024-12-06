@@ -1,0 +1,11 @@
+[스프링 부트 프로젝트 생성]
+ㄴ SpringBootClass 폴더
+ㄴ sb01_jsp 복사 + 붙이기 sb04_oracle_mybatis_jsp 프로젝트명 수정.
+ - Mybatis + Oracle + JSP 연동 예제
+	(부서정보를 출력하는 예제)
+	
+	1) ~.controller.DeptController.java
+	
+
+
+

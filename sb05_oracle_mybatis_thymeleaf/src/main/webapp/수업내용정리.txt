@@ -1,0 +1,20 @@
+[스프링 부트 프로젝트 생성]
+ㄴ SpringBootClass 폴더
+ㄴ sb04_oracle_mybatis_jsp 복사 + 붙이기 sb05_oracle_mybatis_thymeleaf 프로젝트명 수정.
+ - Mybatis + Oracle + Thymeleaf 연동 예제
+	(부서정보를 출력하는 예제)
+	
+	html 파일 - [정적페이지]이 기본
+	
+	Thymeleaf : 자바코딩 + 정적페이지 = 동적페이지로 만드는 것
+	
+	-pom.xml
+	<dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+	
+	http://www.thymeleaf.org
+
+
+
