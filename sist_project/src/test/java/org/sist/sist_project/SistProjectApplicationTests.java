@@ -1,180 +1,70 @@
 package org.sist.sist_project;
 
-import java.time.LocalDateTime;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.sist.sist_project.answer.Answer;
-import org.sist.sist_project.answer.AnswerRepository;
-import org.sist.sist_project.question.Question;
-import org.sist.sist_project.question.QuestionRepository;
+import org.sist.sist_project.consultationSchedule.ConsultationSchedule;
+import org.sist.sist_project.consultationSchedule.ConsultationScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
 class SistProjectApplicationTests {
 
 	@Autowired
-	private QuestionRepository questionRepository;
-	/*
-	@Test
-	void testJpa() {
-		// 질문 등록 테스트
-		Question q1 = new Question();
-		
-		q1.setSubject("sbb기 무엇인가요?");
-		q1.setContent("sbb에 대해서 알고 싶습니다");
-		q1.setCreateDate(LocalDateTime.now());
-		this.questionRepository.save(q1);
-		
-		
-		Question q2 = new Question();
-		
-		q2.setSubject("스프링부트 모델 질문입니다");
-		q2.setContent("id는 자동으로 생성되나요?");
-		q2.setCreateDate(LocalDateTime.now());
-		this.questionRepository.save(q2);
-	}
-	*/
-	
-	/*
-	@Test
-	void testJpa() {
-		// 모든 질문 조회
-		List<Question> list = this.questionRepository.findAll();
-		System.out.println(">" + list.size());
-		
-		list.stream().forEach(q->System.out.println(q.getSubject()));
-	}
-	*/
-	
-	/*
-	@Test
-	void testJpa() {
-		// 질문ID에 해당하는 질문 조회
-		
-		Optional<Question> optional = this.questionRepository.findById(2);
-		if (optional.isPresent()) { // 값이 존재한다면
-			Question q = optional.get();
-			System.out.println(q.getSubject() + "/" + q.getContent());
-			
-		}
-	}
-	*/
-	
-	/*
-	@Test
-	void testJpa() {
-		// 제목으로 검색
-		Question q = this.questionRepository.findBySubject("sbb기 무엇인가요?");
-		System.out.println(">>" + q.getContent());
-	}
-	*/
-	
-	// WHERE subject LIKE '%무엇%'
-	/*
-	  @Test void testJpa() { // 제목으로 검색 Question q =
-	  Question q =  this.questionRepository.findBySubject("sbb가 무엇인가요?"); 
-	  System.out.println(">>"+ q.getContent()); 
-	  }
-	 */
-	
-	/*
-	  @Test
-	    void testJpa() {
-	      // 제목에 "무엇"이 포함된 데이터 검색
-		  //List<Question> list = this.questionRepository.findBySubjectContaining("sbb");
-		  //System.out.println(">>" + list.size());
-	      
-		  // 2.
-		  List<Question> list = this.questionRepository.findBySubjectLike("sbb");
-		  System.out.println(">>" + list.size());
-		  
-		  //2-2
-		  List<Question> list = this.questionRepository.findBySubjectLike("%sbb%");
-	    }
-	 */
-	
-	/*
-	@Test
+    private ConsultationScheduleRepository consultationScheduleRepository;
+
+    @Test
     void testJpa() {
-        Question q = this.questionRepository.findBySubjectAndContent("sbb기 무엇인가요?", "sbb에 대해서 알고 싶습니다");
-        System.out.println(">> id" + q.getId());
+        // 더미 데이터 삽입
+        ConsultationSchedule schedule1 = new ConsultationSchedule();
+        schedule1.setName("홍길동");
+        schedule1.setPhone("010-1234-5678");
+        schedule1.setReservationDateTime("2024-12-10 10:00");
+        schedule1.setIsMajor(true);
+        schedule1.setBranch("강남점");
+        schedule1.setSubject("100%정부지원▶2//3 개강 AWS와 Docker & Kubernetes를 활용한 Java Full-Stack 개발자 양성과정");
+        schedule1.setReservationStatus("예약 완료");
+        schedule1.setIsConfirmed(true);
+        schedule1.setIsCanceled(false);
+        schedule1.setNotes("국민취업지원제도 이용방법도 궁금합니다.");
+
+        ConsultationSchedule schedule2 = new ConsultationSchedule();
+        schedule2.setName("김철수");
+        schedule2.setPhone("010-8765-4321");
+        schedule2.setReservationDateTime("2024-12-11 14:00");
+        schedule2.setIsMajor(false);
+        schedule2.setBranch("강북점");
+        schedule2.setSubject("100%정부지원▶12//11마감AWS 클라우드와 Kafka를 활용한 Java(자바) Full-Stack 개발자 양성과정");
+        schedule2.setReservationStatus("대기 중");
+        schedule2.setIsConfirmed(false);
+        schedule2.setIsCanceled(false);
+        schedule2.setNotes("자바 풀스텍 과정이라고 생각하면 될까요??");
+
+        consultationScheduleRepository.save(schedule1);
+        consultationScheduleRepository.save(schedule2);
+
+        // 저장된 데이터 확인
+        List<ConsultationSchedule> schedules = consultationScheduleRepository.findAll();
+        assertEquals(2, schedules.size());
+
+        ConsultationSchedule fetchedSchedule = consultationScheduleRepository.findByNameContaining("홍길동").get(0);
+        assertNotNull(fetchedSchedule);
+        assertEquals("홍길동", fetchedSchedule.getName());
+        assertEquals("서울 지점", fetchedSchedule.getBranch());
+
+        // 예약 상태가 '대기 중'인 스케줄 확인
+        List<ConsultationSchedule> pendingSchedules = consultationScheduleRepository.findByReservationStatus("대기 중");
+        assertEquals(1, pendingSchedules.size());
+        assertEquals("김철수", pendingSchedules.get(0).getName());
+
+        System.out.println("JPA 테스트 성공");
     }
-    */
 	
-	/*
-	// 질문 수정(제목만 수정)
-	// UPDATE
-	// SET subject = '수정할 값'
-	// WHERE id = 1;
-	@Test
-    void testJpa() {
-        Optional<Question> optional = this.questionRepository.findById(1);
-        if (optional.isPresent()) {
-			Question q1 = optional.get();
-			q1.setSubject("수정된 제목");
-			this.questionRepository.save(q1);
-		}//if
-        
-    }
-    */
-	/*
-	// 질문 삭제
-	@Test
-    void testJpa() {
-        
-        System.out.println("총 질문 수"+this.questionRepository.count());
-        
-        // void this.questionRepository.deleteById(1);
-        Optional<Question> oq = this.questionRepository.findById(1);
-        Question q1 = oq.get();
-        this.questionRepository.delete(q1);
-        
-        System.out.println("총 질문 수"+this.questionRepository.count());
-        
-    }
-    */
-    
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 1. 답변 저장
-	@Autowired
-	private AnswerRepository answerRepository;
-	
-	/*
-	@Test
-	 void testJpa() {
-		
-		Optional<Question> optional = this.questionRepository.findById(2);
-		if (optional.isPresent()) {
-			Question q = optional.get();
-			
-			Answer a = new Answer();
-			a.setContent("2번째 답글");
-			a.setCreateDate(LocalDateTime.now());
-			a.setQuestion(q);
-			this.answerRepository.save(a);
-		}// if	
-	}
-	*/
-	
-	// 데이터를 가져오는 방식
-	// 1. 즉시 방식 (Eager)
-	// 2. 지연 방식(Lazy)
-	@Transactional
-	@Test
-	void testJpa() {
-		Optional<Question> optional = this.questionRepository.findById(2);
-		if (optional.isPresent()) {
-			Question q = optional.get();
-			List<Answer> answerList = q.getAnswerList();
-			
-			answerList.stream().forEach(a->System.out.println("answer 드가자 : " + a.getContent()));
-		}
-	}
 
 
 	
