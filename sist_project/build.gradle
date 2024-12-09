@@ -47,6 +47,9 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     
+    // @Vaild
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
     // 반드시 코딩 수정시 refrech gradle project 하자...
 }
 

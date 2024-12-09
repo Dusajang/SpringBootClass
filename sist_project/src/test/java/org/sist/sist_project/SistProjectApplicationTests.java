@@ -3,6 +3,7 @@ package org.sist.sist_project;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -11,61 +12,44 @@ import org.sist.sist_project.consultationSchedule.ConsultationScheduleRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-
 @SpringBootTest
 class SistProjectApplicationTests {
 
-	@Autowired
+    @Autowired
     private ConsultationScheduleRepository consultationScheduleRepository;
 
     @Test
     void testJpa() {
-        // 더미 데이터 삽입
-        ConsultationSchedule schedule1 = new ConsultationSchedule();
-        schedule1.setName("홍길동");
-        schedule1.setPhone("010-1234-5678");
-        schedule1.setReservationDateTime("2024-12-10 10:00");
-        schedule1.setIsMajor(true);
-        schedule1.setBranch("강남점");
-        schedule1.setSubject("100%정부지원▶2//3 개강 AWS와 Docker & Kubernetes를 활용한 Java Full-Stack 개발자 양성과정");
-        schedule1.setReservationStatus("예약 완료");
-        schedule1.setIsConfirmed(true);
-        schedule1.setIsCanceled(false);
-        schedule1.setNotes("국민취업지원제도 이용방법도 궁금합니다.");
+        // 1. Create - 새로운 데이터 저장
+        ConsultationSchedule schedule = new ConsultationSchedule();
+        schedule.setName("김철수");
+        schedule.setPhone("010-1234-5678");
+        schedule.setEmail("asdfgh1234@naver.com");
+        schedule.setIsMajor(true);
+        schedule.setCenter("강남교육센터");
+        schedule.setSubject("자바 풀스택");
+        schedule.setReservationDateTime(LocalDateTime.of(2024, 12, 12, 16, 0));
+        schedule.setReservationStatus("확인");
+        schedule.setIsConfirmed(true);
+        schedule.setIsCanceled(false);
+        schedule.setNotes("비전공자인데 괜찮을까요?");
 
-        ConsultationSchedule schedule2 = new ConsultationSchedule();
-        schedule2.setName("김철수");
-        schedule2.setPhone("010-8765-4321");
-        schedule2.setReservationDateTime("2024-12-11 14:00");
-        schedule2.setIsMajor(false);
-        schedule2.setBranch("강북점");
-        schedule2.setSubject("100%정부지원▶12//11마감AWS 클라우드와 Kafka를 활용한 Java(자바) Full-Stack 개발자 양성과정");
-        schedule2.setReservationStatus("대기 중");
-        schedule2.setIsConfirmed(false);
-        schedule2.setIsCanceled(false);
-        schedule2.setNotes("자바 풀스텍 과정이라고 생각하면 될까요??");
+        ConsultationSchedule savedSchedule = consultationScheduleRepository.save(schedule);
+        assertNotNull(savedSchedule.getId()); // 저장된 엔티티의 ID가 null이 아닌지 확인
 
-        consultationScheduleRepository.save(schedule1);
-        consultationScheduleRepository.save(schedule2);
-
-        // 저장된 데이터 확인
+        // 2. Read - 데이터 조회
         List<ConsultationSchedule> schedules = consultationScheduleRepository.findAll();
-        assertEquals(2, schedules.size());
+        assertNotNull(schedules);
+        assertEquals(1, schedules.size()); // 저장된 데이터 개수 확인
 
-        ConsultationSchedule fetchedSchedule = consultationScheduleRepository.findByNameContaining("홍길동").get(0);
-        assertNotNull(fetchedSchedule);
-        assertEquals("홍길동", fetchedSchedule.getName());
-        assertEquals("서울 지점", fetchedSchedule.getBranch());
+        // 3. Update - 데이터 수정
+        savedSchedule.setSubject("프론트엔드");
+        ConsultationSchedule updatedSchedule = consultationScheduleRepository.save(savedSchedule);
+        assertEquals("프론트엔드", updatedSchedule.getSubject()); // 수정된 데이터 확인
 
-        // 예약 상태가 '대기 중'인 스케줄 확인
-        List<ConsultationSchedule> pendingSchedules = consultationScheduleRepository.findByReservationStatus("대기 중");
-        assertEquals(1, pendingSchedules.size());
-        assertEquals("김철수", pendingSchedules.get(0).getName());
-
-        System.out.println("JPA 테스트 성공");
+        // 4. Delete - 데이터 삭제
+        consultationScheduleRepository.delete(updatedSchedule);
+        List<ConsultationSchedule> remainingSchedules = consultationScheduleRepository.findAll();
+        assertEquals(0, remainingSchedules.size()); // 데이터가 삭제되었는지 확인
     }
-	
-
-
-	
-}// class
+}
