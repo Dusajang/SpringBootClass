@@ -100,14 +100,79 @@ org.sist.sb06_sbb2.answer
 
 9. JUnit 설치
 
-10. 제목으로 검색
+	제목으로 검색
 		// Repository
 		// CrudRepository
 		// PagingAndSortRepository
-		//JpaRepository
+		// JpaRepository
 
 
+question 질문 패키지
+	ㄴ QuestionController.java 클래스 추가
+answer	답변 패키지
+controller 메인 컨트롤러
 
+1. 템플릿 엔진 : 템플릿(html + java)을 사용하기 위해 스프링 부트에서 템플릿 엔진을 지원([Thymeleaf], Mustache, Groovy, Freemarker, Velocity 등)
+
+2.
+[Thymeleaf]
+https://thymeleaf.org
+
+3.
+// 타임리프 모듈 추가
+implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+4./question/list 요청
+	question 폴더
+		ㄴ list.html
+		
+5. 컨트롤러 -> [서비스] -> 리파지토리
+	1) 트랜잭션 처리
+	2) 복잡한 코드를 모듈화...
+	**3) 엔티티 객체(DB 동기화) -> DTO 객체 변환
+5-2. QuestionService.java
+
+loop.index	1부터 시작하는 현재 반복의 인덱스.
+loop.count	1부터 시작하는 반복 횟수.
+loop.size	컬렉션의 총 크기.
+loop.first	현재 반복이 첫 번째인지 여부 (true 또는 false).
+loop.last	현재 반복이 마지막인지 여부 (true 또는 false).
+loop.index-1	0부터 시작하는 현재 반복의 인덱스.
+loop.current	현재 반복 중인 아이템.
+loop.even	현재 인덱스가 짝수인지 여부 (true 또는 false).
+loop.odd	현재 인덱스가 홀수인지 여부 (true 또는 false).
+loop.hasNext	현재 반복 이후에 더 많은 아이템이 있는지 여부 (true 또는 false).
+
+
+6. 질문 상세 보기 list.html 링크 주는 법 체크
+
+7. 컨트롤러[V] + 서비스 + 리파지토리    체크/수정
+						findById()
+						
+8. 답변 기능
+	1) detail.html
+		답변 작성 입력태그 구성... + ajax
+		<form></form>
+		/answer/create/${question.id} 컨트롤러 처리
+	2) 답변 서비스
+		답변 리파지토리
+		
+9. 웹 페이지 디자인...
+	src/main/resources
+		ㄴ static 폴더 안에 .... css, js 등등
+			ㄴ style.css
+			
+10. 부트 스트랩(BootStrap) 사용
+	https://getbootstrap.com
+	bootstrap-5.3.3-dist.zip
+	
+11. 페이징 모듈화...
+만약 : html 문서 구조의 body 요소를 제외한 모든 부분이 동일해서 중복.
+타임리프에서는 이런 중복을 제거하기위해서 "템플릿상속" 기능을 제공한다.
+	ㄴ 1) 기본 틀이 되는 템플릿을 먼저 작성
+	ㄴ 2) 그 작성된 템플릿을 상속해서 html 구조..완성..
+	
 
 
 

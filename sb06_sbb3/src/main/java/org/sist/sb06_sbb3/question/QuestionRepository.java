@@ -1,4 +1,4 @@
-package org.sist.sb06_sbb2.question;
+package org.sist.sb06_sbb3.question;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

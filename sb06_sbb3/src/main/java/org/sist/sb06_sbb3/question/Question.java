@@ -1,9 +1,9 @@
-package org.sist.sb06_sbb2.question;
+package org.sist.sb06_sbb3.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.sist.sb06_sbb2.answer.Answer;
+import org.sist.sb06_sbb3.answer.Answer;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
