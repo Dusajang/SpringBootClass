@@ -3,11 +3,14 @@ package org.sist.sist_project.consultationSchedule;
 import java.time.LocalDateTime;
 
 import groovyjarjarantlr4.v4.runtime.misc.Nullable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -48,8 +51,8 @@ public class ConsultationSchedule {
     @NotNull(message = "전공 유무는 필수 입력 값입니다.")
     private Boolean isMajor; // 전공 유무 (true: 전공자, false: 비전공자)
 
-    @NotNull(message = "지점 선택은 필수 입력 값입니다.")
-    private String center; // 지점 선택
+    //@NotNull(message = "지점 선택은 필수 입력 값입니다.")
+    //private String center; // 지점 선택
 
     @Size(max = 100, message = "상담 과목은 100자를 초과할 수 없습니다.")
     private String subject; // 상담 과목
@@ -69,5 +72,14 @@ public class ConsultationSchedule {
 
     @Size(max = 500, message = "내용은 500자를 초과할 수 없습니다.")
     private String notes; // 예약 관련 내용
-
+    
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    private ConsultationSubject consultationSubject; // 상담 과목
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "center_id", referencedColumnName = "id") // 외래 키 매핑
+    private Center center; // 지점 정보
+    
 }

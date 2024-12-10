@@ -1,8 +1,9 @@
-package org.sist.sb06_sbb3.question;
+package org.sist.sb06_sbb4.question;
 
-import java.util.List;
-
-import org.sist.sb06_sbb3.answer.AnswerForm;
+import org.sist.sb06_sbb4.answer.AnswerForm;
+import org.sist.sb06_sbb4.page.Criteria;
+import org.sist.sb06_sbb4.page.PageDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,12 +34,28 @@ public class QuestionController {
 	}
 	*/
 	
+	/*[1]
+	// 질문 목록
 	@GetMapping("/list")
 	public void list(Model model) {
 		//List<Question> questionList = this.questionRepository.findAll();
 		List<Question> questionList = this.questionService.getList();
 		model.addAttribute("questionList", questionList);
 	}
+	*/
+	
+	@GetMapping("/list")
+	public void list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
+		//List<Question> questionList = this.questionRepository.findAll();
+		// 페이징 처리가 된 객체 : paging
+		Page<Question> paging = this.questionService.getList(page);
+		model.addAttribute("paging", paging);
+		
+		Criteria criteria = new Criteria(page+1, 10 ); 
+	    int total = (int)paging.getTotalElements();
+	    model.addAttribute("pageMaker",  new PageDTO(criteria, total));
+	}
+	
 	
 	// 질문 상세 보기
 	@GetMapping("detail/{id}")

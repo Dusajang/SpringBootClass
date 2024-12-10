@@ -27,6 +27,15 @@
 	
 5. 질문 등록 폼 => QuestionForm.jav    ==DTO
 
+6. 답변 등록 기능에 폼 적용하기.... 12/10
+	<form th:action="@{|/answer/create/${question.id}|}"  [[[[th:object="${answerForm}"]]]] method="post" class="my-3">
+	
+	create.html, detail.html 즉 모든 입력폼에서 공통으로 사용하는 템플릿
+	[공통 템플릿] form_errors.html
+	<div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+		<div th:each=" err : ${#fields.allErrors()}" th:text="${err}"></div>
+	</div>
+
 
 
 
