@@ -2,6 +2,8 @@ package org.sist.sist_project.consultationSchedule;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -70,16 +73,11 @@ public class ConsultationSchedule {
     
 
     @NotNull(message = "예약 일시는 필수 입력 값입니다.")
-    private LocalDateTime reservationDateTime; // 예약 일시 (LocalDateTime으로 변경)
+    @Column(name = "reservation_date_time", columnDefinition = "DATETIME(0)")
+    private LocalDateTime reservationDateTime;
 
     @NotNull
     private String reservationStatus = "확인"; // 예약 상태 기본 값 설정
-    @PrePersist
-    private void prePersist() {
-        if (this.reservationStatus == null) {
-            this.reservationStatus = "확인";
-        }
-    }
 
     @Column(nullable = false)
     private Boolean isCanceled = false; // 예약 취소 여부 (기본값: false)
@@ -88,4 +86,19 @@ public class ConsultationSchedule {
     private String etc; // 예약 관련 내용
     
     
+    
+    
+    @PrePersist
+    @PreUpdate
+    private void handleDefaultValues() {
+        // 예약 상태 초기화
+        if (this.reservationStatus == null) {
+            this.reservationStatus = "확인";
+        }
+
+        // 밀리초 제거
+        if (this.reservationDateTime != null) {
+            this.reservationDateTime = this.reservationDateTime.withNano(0);
+        }
+    }
 }
