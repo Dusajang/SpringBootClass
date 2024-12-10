@@ -87,14 +87,5 @@ public class ConsultationSchedule {
     @Size(max = 500, message = "내용은 500자를 초과할 수 없습니다.")
     private String etc; // 예약 관련 내용
     
-    /*
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    private ConsultationSubject consultationSubject; // 상담 과목
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "center_id", referencedColumnName = "id") // 외래 키 매핑
-    private Center center; // 지점 정보
-    */
     
 }
