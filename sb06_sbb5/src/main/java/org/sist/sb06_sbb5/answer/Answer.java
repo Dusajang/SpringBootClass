@@ -3,6 +3,7 @@ package org.sist.sb06_sbb5.answer;
 import java.time.LocalDateTime;
 
 import org.sist.sb06_sbb5.question.Question;
+import org.sist.sb06_sbb5.user.SiteUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,9 +18,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-//@Builder
+// @Builder // setter 말고 이걸 사용해도 된다.
 public class Answer {
-    
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -29,8 +30,11 @@ public class Answer {
 	
 	private LocalDateTime createDate;
 	
-	@ManyToOne   // 연관관계 주는 어노테이션...
-	private Question question;  // 주의
- 
+	// 연관관계를 맺어줘야된다. / 아니면 오류뜬다.
+	@ManyToOne // 1대n 질문 1개에 답변이 n개
+	private Question question; // 다르다. / 주의 / FK / question_id 로 나온다.
 	
-}
+	@ManyToOne // 다대일 여러개의 답변 - 한명의 유저
+	private SiteUser author;
+	
+} // class

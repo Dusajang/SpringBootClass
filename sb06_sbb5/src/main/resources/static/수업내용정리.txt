@@ -27,3 +27,56 @@
 	- user 패키지.
 
 3-2. UserRepository
+	 UserService
+	 
+	 회원가입 페이지 작성 -> UserCreateForm.java -> UserController
+	 
+	 
+	 @Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+4. 네비게이션바 - 로그인/ 회원가입 링크 추가
+
+5. 등록된 ID, Email -> 회우너가입 UK 제약으로 가입 안됌
+	PK
+	UK
+	제약조건 위배
+	에러 메시지를 출력하고 다시 회원가입 페이지로 이동...
+	
+6. 로그인과 로그아웃 기능 구현....
+7. 사용자 정의 인증 처리 방식
+	UserSecurityService == CustomUserDetailService
+	
+8. 질문 / 답변 - 작성자 처리...
+	1) question 엔티티
+	   answer 엔티티
+	@ManyToOne
+	private SiteUser author;
+	
+	테이블 AUTHOR_ID 컬럼 = 작성자 ID SiteUser PK
+	
+	2) 답변 컨트롤러, 서비스 수정... - 작성자 처리
+	2) 질문 컨트롤러, 서비스 수정... - 작성자 처리
+	
+	현재 상태는 로그인 하지 않고 질문/답변 작성하면 작성자가 없기 때문에 500 서버 오류 발생...
+	
+9. 질문 상세 페이지에 답변 작성자를 표시....
+	
+	
+	
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 

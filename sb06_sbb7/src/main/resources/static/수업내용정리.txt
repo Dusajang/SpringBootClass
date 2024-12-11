@@ -1,0 +1,51 @@
+[수업내용정리]
+	
+1. 질문/답변 수정과 삭제 기능 추가하기
+	엔티티  -  수정날짜
+	
+2. 질문상세페이지 : 질문 수정 버튼 추가
+	detail.html -- 수정 버튼
+	질문컨트롤러
+	create.html -> 수정 코딩
+	
+	컨트롤러, 서비스 코딩 수정
+	
+3. 질문 삭제
+	detail.html 삭제
+	fragment 조각
+[
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+]
+layout.html에 스크립트 코딩 조각을 내가 원하는 위치에 주자
+
+4. 질문 삭제 컨트롤러, 서비스 체크
+
+
+
+5. 답변 수정/삭제 처리....
+
+6. 수정된 일자 출력
+
+
+(12/12 작업)
+좋아요/추천 기능 구현
+앵커 기능
+마크다운 적용
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 

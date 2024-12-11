@@ -11,16 +11,17 @@
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
-                	<th>□</th>
+                	<th><input type="checkbox"></th>
                     <th>ID</th>
                     <th>이름</th>
                     <th>휴대폰</th>
-                    <th>이메일</th>
+                    <th>예약일시</th>
                     <th>전공 여부</th>
                     <th>지점</th>
-                    <th>교육 과정</th>
+                    <th>상담과목</th>
                     <th>예약 상태</th>
-                    <th>기타</th>
+                    <th>예약확인</th>
+                    <th>예약취소</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,12 +31,13 @@
                     <td th:text="${schedule.id}"></td>
                     <td th:text="${schedule.name}"></td>
                     <td th:text="${schedule.cell}"></td>
-                    <td th:text="${schedule.email}"></td>
+                    <td th:text="${schedule.reservationDateTime}"></td>
                     <td th:text="${schedule.majorStatus.description}"></td>
                     <td th:text="${schedule.center.description}"></td>
                     <td th:text="${schedule.eduKind != null ? schedule.eduKind.description : 'N/A'}"></td>
                     <td th:text="${schedule.reservationStatus}"></td>
-                    <td th:text="${schedule.etc}"></td>
+                    <td></td>
+                    <td> <button>취소</button> </td>
                 </tr>
             </tbody>
         </table>

@@ -1,28 +1,29 @@
 package org.sist.sb06_sbb5.answer;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
-import org.sist.sb06_sbb5.exception.DataNotFoundException;
 import org.sist.sb06_sbb5.question.Question;
+import org.sist.sb06_sbb5.user.SiteUser;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class AnswerService {
-
-	private final AnswerRepository answerRepository;
 	
-	public void create(Question question, String content) {
+	private final AnswerRepository answerRepository;
+
+	public void create(Question question, String content, SiteUser author) {
 		Answer answer = new Answer();
 		answer.setContent(content);
 		answer.setCreateDate(LocalDateTime.now());
 		answer.setQuestion(question);
 		
+		answer.setAuthor(author); // 작성자
+		
 		this.answerRepository.save(answer);
-	}
+		
+	} // 
 	
-}// class
+} // class

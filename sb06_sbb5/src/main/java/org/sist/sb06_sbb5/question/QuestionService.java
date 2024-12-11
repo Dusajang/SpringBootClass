@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.sist.sb06_sbb5.exception.DataNotFoundException;
+import org.sist.sb06_sbb5.user.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,49 +18,50 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class QuestionService {
-
-	private final QuestionRepository questionRepository;
 	
-	// 질문 목록 가져오는...
-	public List<Question> getList(){
+	private final QuestionRepository questionRepository; // 주입
+	
+	// 질문 목록 + 페이징 처리 x
+	public List<Question> getList() {
 		return this.questionRepository.findAll();
-	}
+	} //
 	
-	// 아이디에 해당하는 질문을 가져오는...
+	// id에 해당하는 질문
 	public Question getQuestion(Integer id) {
 		Optional<Question> oQuestion = this.questionRepository.findById(id);
 		if (oQuestion.isPresent()) {
-			return oQuestion.get();   // Optional<Question> -> Question
-		}else {
+			return oQuestion.get(); // get() : Optional<Question> -> Question 으로 바꾼다.
+		} else {
 			// 강제로 사용자 정의 예외를 발생시키겠다.
 			// exception 패키지 + DataNotFoundException 예외 클래스 추가
 			throw new DataNotFoundException("question not found");
-		}
-	}
+		} // if else
+	} //
 	
-	// 질문을 등록하는...
-	public void create(String subject, String content) {
+	// 질문을 등록
+	public void create(String subject, String content, SiteUser user) {
 		Question question = new Question();
 		question.setSubject(subject);
 		question.setContent(content);
 		question.setCreateDate(LocalDateTime.now());
+		
+		question.setAuthor(user); // 작성자
+		
 		this.questionRepository.save(question);
-	}
+	} //
 	
-	
-	// 페이징 처리 + 목록
-	public Page<Question> getList(int page){
-		// 1번 페이지는 0을 준다
-								   //pageNumber, pageSize
-		//Pageable pageable = PageRequest.of(page, 10);
+	// 페이징 처리 + 목록 / 1번 페이지를 주고 싶으면 0을 줘야된다.
+	public Page<Question> getList(int page) {
+								// pageNumber : 현재 페이지, pageSize : 한 페이지에 몇개
+//		Pageable pageable = PageRequest.of(page, 10);
 		
 		List<Sort.Order> sorts = new ArrayList<>();
+		
 		sorts.add(Sort.Order.desc("id"));
-		
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		
 		return this.questionRepository.findAll(pageable);
-	}
+	} //
 	
 	
-}// class
+	
+} // class
