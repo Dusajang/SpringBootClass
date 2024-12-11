@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>manage</title>
+    
+    
+<!-- CSS -->
+<link th:href="@{/manage/css/nanumgothic.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/manage/css/notosanskr.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/poppins.css}" rel="stylesheet" type="text/css" />
+<link href="//cdn.jsdelivr.net/font-kopub/1.0/kopubdotum.css" rel="stylesheet">
+<link href="//cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css" rel="stylesheet" type="text/css">
+<link th:href="@{/manage/css/basic.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/manage/css/layout.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/manage/css/board.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/manage/css/manage.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/colorPicker.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/summernote/jquery-ui.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/js/jstree_/css/style.min.css}" rel="stylesheet" />
+<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet" type="text/css" media="all" />
+       
+    <!-- JavaScript -->
+    <script th:src="@{/resources/js/scripts.js}" defer></script>
+    <style>
+        .login_wrap .login_tit {
+            color: #04264c;
+        }
+        .loginCon li .login_btn {
+            background-color: #04264c;
+        }
+    </style>
+</head>
+<body>
+<!-- top -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h4 class="panel-title txt-dark">회원 관리 - [목록]</h4>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <form name="searchForm" id="searchForm" th:action="@{/index}" method="post">
+                        <div class="form-wrap">
+                            <div class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="col-md-4 title">
+                                            <span class="asterisk">*</span>
+                                            회원상태
+                                        </label>
+                                        <select name="ssecession" class="form-control w140" th:onchange="submit()">
+                                            <option value="-1">전체</option>
+                                            <option value="0" th:selected="${ssecession == 0}">회원</option>
+                                            <option value="1" th:selected="${ssecession == 1}">탈퇴신청</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="col-md-4 title">
+                                            <span class="asterisk">*</span>
+                                            sms수신
+                                        </label>
+                                        <select name="sissms" class="form-control w140" th:onchange="submit()">
+                                            <option value="-1">전체</option>
+                                            <option value="0" th:selected="${sissms == 0}">수신안함</option>
+                                            <option value="1" th:selected="${sissms == 1}">수신</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="col-md-4 title">
+                                            <span class="asterisk">*</span>
+                                            email수신
+                                        </label>
+                                        <select name="sisemail" class="form-control w140" th:onchange="submit()">
+                                            <option value="-1">전체</option>
+                                            <option value="0" th:selected="${sisemail == 0}">수신안함</option>
+                                            <option value="1" th:selected="${sisemail == 1}">수신</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="light-grey-hr"></div>
+                                <div class="row">
+                                    <div class="col-md-12 all">
+                                        <label class="col-md-2 title">
+                                            <span class="asterisk">*</span>
+                                            성별
+                                        </label>
+                                        <select name="sgender" class="form-control w140" th:onchange="submit()">
+                                            <option value="0">전체</option>
+                                            <option value="1" th:selected="${sgender == 1}">남자</option>
+                                            <option value="2" th:selected="${sgender == 2}">여자</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="light-grey-hr"></div>
+                                <div class="row">
+                                    <div class="col-md-12 all">
+                                        <label class="col-md-2 title">
+                                            <span class="asterisk">*</span>
+                                            가입일
+                                        </label>
+                                        <div class="form-box hauto">
+                                            <input type="hidden" name="sdatetype" id="sdatetype" value="registdate" />
+                                            <input type="text" id="sstartdate" name="sstartdate" class="form-control w140" th:value="${sstartdate}" />
+                                            <button type="button" id="start_button">
+                                                <img src="/manage/img/calendar_icon.png" style="cursor:pointer;" />
+                                            </button>
+                                            &nbsp;&nbsp;-&nbsp;&nbsp;
+                                            <input type="text" id="senddate" name="senddate" class="form-control w140" th:value="${senddate}" />
+                                            <button type="button" id="end_button">
+                                                <img src="/manage/img/calendar_icon.png" style="cursor:pointer;" />
+                                            </button>
+                                            <p>
+                                                <a class="btns btns_black_line" th:onclick="'searchDate(' + '2024-12-06' + ')'"><strong>오늘</strong></a>
+                                                <a class="btns btns_black_line" th:onclick="'searchDate(' + '2024-11-29' + ', ' + '2024-12-06' + ')'"><strong>1주</strong></a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="light-grey-hr"></div>
+                                <div class="row">
+                                    <div class="col-md-12 all">
+                                        <label class="col-md-2 title">
+                                            <span class="asterisk">*</span>
+                                            검색어 검색
+                                        </label>
+                                        <div class="form-box hauto">
+                                            <select name="stype" class="form-control w140" th:onchange="submit()">
+                                                <option value="name">이름</option>
+                                                <option value="id">아이디</option>
+                                                <option value="cell">휴대폰</option>
+                                                <option value="email">이메일</option>
+                                                <option value="addr0">주소</option>
+                                            </select>
+                                            <input type="text" id="sval" name="sval" class="text_box form-control upserch06" th:value="${sval}" />
+                                            <a class="btns btns_blue_line" th:onclick="submit()">검색</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 데이터 목록 -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div id="bbs">
+                        <form name="frm" id="frm" th:action="@{/process}" method="post">
+                            <div class="table_wrap table_scroll1400">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="allChk" /></th>
+                                            <th>번호</th>
+                                            <th>회원</th>
+                                            <th>아이디</th>
+                                            <th>휴대폰</th>
+                                            <th>이메일</th>
+                                            <th>회원상태</th>
+                                            <th>sms수신</th>
+                                            <th>email수신</th>
+                                            <th>가입일</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                           <tr th:each="member : ${memberList}">
+                                            <td><input type="checkbox" name="no" th:value="${member.id}" /></td>
+                                            <td th:text="${member.no}"></td>
+                                            <td th:text="${member.name}"></td>
+                                            <td th:text="${member.id}"></td>
+                                            <td th:text="${member.phone}"></td>
+                                            <td th:text="${member.email}"></td>
+                                            <td th:text="${member.status}"></td>
+                                            <td th:text="${member.smsReceive}"></td>
+                                            <td th:text="${member.emailReceive}"></td>
+                                            <td th:text="${member.joinDate}"></td>
+                                        </tr> 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

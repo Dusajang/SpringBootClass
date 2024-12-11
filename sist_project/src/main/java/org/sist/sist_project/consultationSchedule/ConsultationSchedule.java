@@ -33,7 +33,7 @@ public class ConsultationSchedule {
      */
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id; // Primary Key
 
     @NotNull(message = "예약자 이름은 필수 입력 값입니다.")
