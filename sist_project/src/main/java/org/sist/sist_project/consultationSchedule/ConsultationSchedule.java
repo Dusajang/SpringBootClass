@@ -1,6 +1,9 @@
 package org.sist.sist_project.consultationSchedule;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -60,7 +63,7 @@ public class ConsultationSchedule {
 
     @NotNull(message = "전공 유무는 필수 입력 값입니다.")
     @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
-    private MajorStatus majorStatus; // 전공 여부
+    private Edutype edutype; // 전공 여부
     
     @NotNull(message = "지점 선택은 필수 입력 값입니다.")
     @Enumerated(EnumType.STRING) // Enum 값을 문자열로 저장
@@ -71,13 +74,24 @@ public class ConsultationSchedule {
     private EduKind eduKind; // 상담 과목 종류
     
     
+	/*
+	 * @NotNull(message = "예약 일시는 필수 입력 값입니다.")
+	 * 
+	 * @Column(name = "reservation_date_time", columnDefinition = "DATETIME(0)")
+	 * private LocalDateTime reservationDateTime;
+	 */
+    
+    @NotNull(message = "예약 날짜는 필수 입력 값입니다.")
+    @Column(name = "reservation_date", columnDefinition = "DATE")
+    private LocalDate reservationDate;
 
-    @NotNull(message = "예약 일시는 필수 입력 값입니다.")
-    @Column(name = "reservation_date_time", columnDefinition = "DATETIME(0)")
-    private LocalDateTime reservationDateTime;
-
-    @NotNull
-    private String reservationStatus = "확인"; // 예약 상태 기본 값 설정
+    @NotNull(message = "예약 시간은 필수 입력 값입니다.")
+    @Column(name = "reservation_time", columnDefinition = "TIME")
+    private LocalTime reservationTime;
+    
+    
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus = ReservationStatus.CONFIRMED;
 
     @Column(nullable = false)
     private Boolean isCanceled = false; // 예약 취소 여부 (기본값: false)
@@ -90,15 +104,13 @@ public class ConsultationSchedule {
     
     @PrePersist
     @PreUpdate
-    private void handleDefaultValues() {
-        // 예약 상태 초기화
+    private void validateReservationDateTime() {
+        if (this.reservationDate == null || this.reservationTime == null) {
+            throw new IllegalArgumentException("예약 날짜와 시간은 모두 필수 입력 값입니다.");
+        }//if
+        
         if (this.reservationStatus == null) {
-            this.reservationStatus = "확인";
-        }
-
-        // 밀리초 제거
-        if (this.reservationDateTime != null) {
-            this.reservationDateTime = this.reservationDateTime.withNano(0);
+            this.reservationStatus = ReservationStatus.CONFIRMED;
         }
     }
 }

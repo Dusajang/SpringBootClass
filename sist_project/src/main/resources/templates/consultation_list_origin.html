@@ -12,17 +12,17 @@
 <meta name="classification" content="검색사이트 카테고리 등록">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
 
-<link rel="stylesheet" type="text/css" href="/manage/css/nanumgothic.css"  />
-<link rel="stylesheet" type="text/css" href="/manage/css/notosanskr.css"  />
-<link rel="stylesheet" type="text/css" href="/css/poppins.css"  />
+<link href="/manage/css/nanumgothic.css" rel="stylesheet" type="text/css" />
+<link href="/manage/css/notosanskr.css" rel="stylesheet" type="text/css" />
+<link href="/css/poppins.css" rel="stylesheet" type="text/css" />
 <link rel='stylesheet' href='//cdn.jsdelivr.net/font-kopub/1.0/kopubdotum.css'>
-<link rel='stylesheet' type='text/css' href='//cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css' >
-<link rel='stylesheet' type='text/css' href="/manage/css/basic.css" />
-<link rel='stylesheet' type='text/css' href="/manage/css/layout.css" />
-<link rel='stylesheet' type='text/css' href="/manage/css/board.css" />
-<link rel='stylesheet' type='text/css' href="/manage/css/manage.css" />
-<link rel='stylesheet' type='text/css' href="/css/colorPicker.css" />
-<link rel='stylesheet' type='text/css' href="/summernote/jquery-ui.css" />
+<link href='//cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css' rel='stylesheet' type='text/css'>
+<link href="/manage/css/basic.css" rel="stylesheet" type="text/css" />
+<link href="/manage/css/layout.css" rel="stylesheet" type="text/css" />
+<link href="/manage/css/board.css" rel="stylesheet" type="text/css" />
+<link href="/manage/css/manage.css" rel="stylesheet" type="text/css" />
+<link href="/css/colorPicker.css" rel="stylesheet" type="text/css" />
+<link href="/summernote/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="/js/jstree_/css/style.min.css" />
 <link rel="stylesheet" href="/css/jquery.datetimepicker.css" type="text/css" media="all" />
 
@@ -30,6 +30,7 @@
 <script type="text/javascript" src="/js/menu.js"></script>
 <script type="text/javascript" src="/js/calendar_beans_v2.0.js"></script>
 <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>
+
 
 <!-- 달력 변경 jquery.js 버젼업, datetimepicker.full.js 달력 js -->
 <script src="/js/jquery.js"></script>
@@ -472,14 +473,254 @@ $(document).ready(function(){
 		</nav>
 		<!-- /Top Menu Items -->
 		
-		<!-- Left Sidebar Menu -->
+				<!-- Left Sidebar Menu -->
 		<div class="fixed-sidebar-left">
 			<ul class="nav navbar-nav side-nav nicescroll-bar depth_custom" style="overflow:hidden;">
 				<li class="navigation-header">
 					<span></span> 
 					<i class="zmdi zmdi-more"></i>
 				</li>
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i><span class="right-nav-text">게시판관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_1" class=""> -->
+<!-- 						<li id="menu1_1" class="/manage/board/notice/"><a href="/manage/board/notice/index.jsp">공지/보도/동영상</a></li> -->
+<!-- 						<li id="menu1_2" class="/manage/board/NoticeListImage/"><a href="/manage/board/NoticeListImage/index.jsp">공지/보도/동영상<br/>(이미지목록형)</a></li> -->
+<!-- 						<li id="menu1_3" class="/manage/board/reply/"><a href="/manage/board/reply/index.jsp">답변형 게시판</a></li> -->
+<!-- 						<li id="menu1_4" class="/manage/board/reply_comment/"><a href="/manage/board/reply_comment/index.jsp">답변댓글형 게시판</a></li> -->
+<!-- 						<li id="menu1_5" class="/manage/board/gallery/"><a href="/manage/board/gallery/index.jsp">갤러리</a></li> -->
+<!-- 						<li id="menu1_6" class="/manage/board/faq/"><a href="/manage/board/faq/index.jsp">FAQ</a></li> -->
+<!-- 						<li id="menu1_7" class="/manage/board/faq/FaqCatagory/"><a href="/manage/board/faq/FaqCatagory/index.jsp">FAQ분류관리</a></li> -->
+<!-- 						<li id="menu1_8" class="/manage/board/common/"><a href="/manage/board/common/index.jsp">공통게시판</a></li> -->
+<!-- 						<li id="menu1_9" class="/manage/board/popup/"><a href="/manage/board/popup/index.jsp">팝업관리</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-shopping-basket mr-20"></i><span class="right-nav-text">상품관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_2" class=""> -->
+<!-- 						<li id="menu2_1" class="/manage/product/product/"><a href="/manage/product/product/index.jsp">상품관리</a></li> -->
+<!-- 						<li id="menu2_2" class="/manage/product/elcategory/"><a href="/manage/product/elcategory/index.jsp">전자상거래 상품정보관리</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+						
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">주문관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_3" class=""> -->
+<!-- 						<li id="menu3_1" class="/manage/order/order/"><a href="/manage/order/order/index.jsp">주문관리</a></li> -->
+<!-- 						<li id="menu3_2" class="/manage/order/product_review/"><a href="/manage/order/product_review/index.jsp">상품평</a></li> -->
+<!-- 						<li id="menu3_3" class="/manage/order/product_qna/"><a href="/manage/order/product_qna/index.jsp">상품 Q&amp;A</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-flag mr-20"></i><span class="right-nav-text">매출통계</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_4" class=""> -->
+<!-- 						<li id="menu4_1" class="/manage/statistics/stat/"><a href="/manage/statistics/stat/index.jsp">매출통계</a></li> -->
+<!-- 						<li id="menu4_2" class="/manage/statistics/brand/"><a href="/manage/statistics/brand/index.jsp">브랜드별 통계</a></li> -->
+<!-- 						<li id="menu4_3" class="/manage/statistics/prdt/"><a href="/manage/statistics/prdt/index.jsp">상품별 통계</a></li> -->
+<!-- 						<li id="menu4_4" class="/manage/statistics/ctgr/"><a href="/manage/statistics/ctgr/index.jsp">카테고리별 통계</a></li> -->
+<!-- 						<li id="menu4_5" class="/manage/statistics/mem/"><a href="/manage/statistics/mem/index.jsp">회원 통계</a></li> -->
+<!-- 						<li id="menu4_6" class="/manage/statistics/cart/"><a href="/manage/statistics/cart/index.jsp">장바구니 분석</a></li> -->
+<!-- 						<li id="menu4_7" class="/manage/statistics/jjim/"><a href="/manage/statistics/jjim/index.jsp">관심상품 분석</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-smartphone-setup mr-20"></i><span class="right-nav-text">배너관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_5" class=""> -->
+<!-- 						<li id="menu5_1" class="/manage/banner/category/"><a href="/manage/banner/category/index.jsp">카테고리 배너관리</a></li> -->
+<!-- 						li id="menu5_2" class="/manage/banner/main/"><a href="/manage/banner/main/index.jsp">메인 배너관리</a></li -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-edit mr-20"></i><span class="right-nav-text">쿠폰관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_6" class=""> -->
+<!-- 						<li id="menu6_1" class="/manage/coupon/mng/"><a href="/manage/coupon/mng/index.jsp">쿠폰관리</a></li> -->
+<!-- 						<li id="menu6_2" class="/manage/coupon/apply/"><a href="/manage/coupon/apply/index.jsp">쿠폰발급</a></li> -->
+<!-- 						<li id="menu6_3" class="/manage/coupon/use/"><a href="/manage/coupon/use/index.jsp">쿠폰사용</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-chart-donut mr-20"></i><span class="right-nav-text">적립금관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_7" class=""> -->
+<!-- 						<li id="menu7_1" class="/manage/point/point/"><a href="/manage/point/point/index.jsp">적립금관리</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-account-box mr-20"></i><span class="right-nav-text">회원관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_8" class=""> -->
+<!-- 						<li id="menu8_1" class="/manage/member/"><a href="/manage/member/index.jsp">회원관리</a></li> -->
 
+<!-- 						<li id="menu8_2" class="/manage/member/"><a href="/manage/member/dormant_index.jsp">휴면회원</a></li> -->
+
+<!-- 						<li id="menu8_3" class="/manage/member/"><a href="/manage/member/secede_index.jsp">탈퇴회원</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-account-box mr-20"></i><span class="right-nav-text">판매자 관리</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_9" class=""> -->
+<!-- 						<li id="menu9_1" class="/manage/seller/"><a href="/manage/seller/index.jsp">판매자 관리</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+				<li>
+					<a href="javascript:void(0);">
+						<div class="pull-left"><i class="zmdi zmdi-account-box mr-20"></i><span class="right-nav-text">회원관리</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="menu_7" class="">
+						<li id="menu7_1" class="/manage/member/"><a href="/manage/member/index.jsp">회원관리</a></li>
+						<li id="menu7_2" class="/manage/member/"><a href="/manage/member/dormant_index.jsp">휴면회원</a></li>
+						<li id="menu7_3" class="/manage/member/"><a href="/manage/member/secede_index.jsp">탈퇴회원</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="pull-left"><i class="zmdi zmdi-flag mr-20"></i><span class="right-nav-text">지원자 관리</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="menu_4" class="">
+						<li id="menu4_1" class="/manage/eduStatistics/all/"><a href="/manage/eduStatistics/all/index.jsp">전체 지원 현황</a></li>
+						<li id="menu4_2" class="/manage/eduStatistics/employment/allstatistics/"><a href="/manage/eduStatistics/employment/allstatistics/index.jsp">취업자 과정별 지원현황</a></li>
+						<li id="menu4_3" class="/manage/eduStatistics/employment/typestatistics/"><a href="/manage/eduStatistics/employment/typestatistics/index.jsp">취업자 과정별 지원자 관리</a></li>
+						<li id="menu4_4" class="/manage/eduStatistics/incumbent/allstatistics/"><a href="/manage/eduStatistics/incumbent/allstatistics/index.jsp">재직자 과정별 지원현황</a></li>
+						<li id="menu4_5" class="/manage/eduStatistics/incumbent/typestatistics/"><a href="/manage/eduStatistics/incumbent/typestatistics/index.jsp">재직자 과정별 지원자 관리</a></li>
+						<li id="menu4_6" class="/manage/boardAdmin/reservation/"><a href="/manage/boardAdmin/reservation/index.jsp">방문상담예약</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="pull-left"><i class="zmdi zmdi-apps mr-20"></i><span class="right-nav-text">연수 지원서</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="menu_3" class="">
+						<li id="menu3_1" class="/manage/apply/employment/"><a href="/manage/apply/employment/index.jsp">취업교육 지원서관리</a></li>
+						<li id="menu3_2" class="/manage/apply/incumbent/"><a href="/manage/apply/incumbent/index.jsp">재직자교육 지원서관리</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="pull-left"><i class="zmdi zmdi-shopping-basket mr-20"></i><span class="right-nav-text">교육과정 관리</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="menu_2" class="">
+						<li id="menu2_1" class="/manage/edu/"><a href="/manage/edu/index.jsp">교육과정</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i><span class="right-nav-text">게시판관리</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="menu_1" class="">
+						<li id="menu1_1" class="/manage/boardAdmin/notice/"><a href="/manage/boardAdmin/notice/index.jsp">공지사항</a></li>
+						<li id="menu1_2" class="/manage/boardAdmin/consult/"><a href="/manage/boardAdmin/consult/index.jsp">교육문의</a></li>
+						<li id="menu1_3" class="/manage/boardAdmin/faq/"><a href="/manage/boardAdmin/faq/index.jsp">FAQ</a></li>
+						<li id="menu1_4" class="/manage/boardAdmin/faq/FaqCatagory/"><a href="/manage/boardAdmin/faq/FaqCatagory/index.jsp">FAQ분류관리</a></li>
+						<li id="menu1_5" class="/manage/boardAdmin/employment/"><a href="/manage/boardAdmin/employment/index.jsp">취업현황</a></li>
+						<li id="menu1_6" class="/manage/boardAdmin/eduReview/"><a href="/manage/boardAdmin/eduReview/index.jsp">수강후기</a></li>
+						<li id="menu1_7" class="/manage/boardAdmin/portfolio/"><a href="/manage/boardAdmin/portfolio/index.jsp">포트폴리오</a></li>
+						<li id="menu1_8" class="/manage/boardAdmin/popup/"><a href="/manage/boardAdmin/popup/index.jsp">팝업관리</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="pull-left"><i class="zmdi zmdi-account-box mr-20"></i><span class="right-nav-text">구인의뢰관리</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="menu_8" class="">
+						<li id="menu8_1" class="/manage/request/"><a href="/manage/request/index.jsp">구인의뢰</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="pull-left"><i class="zmdi zmdi-flag mr-20"></i><span class="right-nav-text">지원 통계</span></div>
+						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
+						<div class="clearfix"></div>
+					</a>
+					<ul id="menu_6" class="">
+						<li id="menu6_1" class="/manage/statistics/kind/"><a href="/manage/statistics/kind/index.jsp">과정별 통계</a></li>
+						<li id="menu6_1" class="/manage/statistics/info/"><a href="/manage/statistics/info/index.jsp">가입경위 통계</a></li>
+						<li id="menu6_1" class="/manage/statistics/mem/"><a href="/manage/statistics/mem/index.jsp">회원별 통계</a></li>
+					</ul>
+				</li>
+				
+				
+				
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-smartphone-setup mr-20"></i><span class="right-nav-text">문자보내기</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_10" class=""> -->
+<!-- 						<li id="menu10_1" class="/manage/sms/"><a href="/manage/sms/write.jsp">문자보내기</a></li> -->
+<!-- 						<li id="menu10_2" class="/manage/sms/"><a href="/manage/sms/member.jsp">회원문자발송</a></li> -->
+<!-- 						<li id="menu10_3" class="/manage/sms/"><a href="/manage/sms/reservation.jsp">예약내역</a></li> -->
+<!-- 						<li id="menu10_4" class="/manage/sms/"><a href="/manage/sms/index.jsp">발송내역</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-edit mr-20"></i><span class="right-nav-text">메일보내기</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_11" class=""> -->
+<!-- 						<li id="menu11_1" class="/manage/email/"><a href="/manage/email/write.jsp">메일보내기</a></li> -->
+<!-- 						<li id="menu11_2" class="/manage/email/"><a href="/manage/email/member.jsp">회원메일발송</a></li> -->
+<!-- 						<li id="menu11_3" class="/manage/email/"><a href="/manage/email/index.jsp">발송내역</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:void(0);"> -->
+<!-- 						<div class="pull-left"><i class="zmdi zmdi-chart-donut mr-20"></i><span class="right-nav-text">방문자통계</span></div> -->
+<!-- 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div> -->
+<!-- 						<div class="clearfix"></div> -->
+<!-- 					</a> -->
+<!-- 					<ul id="menu_12" class=""> -->
+
+<!-- 					</ul> -->
+<!-- 				</li> -->
+				<li>
 					<a href="javascript:void(0);">
 						<div class="pull-left"><i class="zmdi zmdi-settings mr-20"></i><span class="right-nav-text">환경설정</span></div>
 						<div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div>
@@ -489,6 +730,8 @@ $(document).ready(function(){
 						<li id="menu10_1" class="/manage/environment/admin/"><a href="/manage/environment/admin/index.jsp">관리자관리</a></li>
 						<li id="menu10_2" class="/manage/environment/loginhistory/"><a href="/manage/environment/loginhistory/index.jsp"><span>관리자접속기록</span></a></li>
 						<li id="menu10_3" class="/manage/environment/stipulation/"><a href="/manage/environment/stipulation/stipulation.jsp"><span>개인정보취급방침/<br/>회원약관</span></a></li>
+<!-- 						<li id="menu10_8" class="/manage/management/resertime/"><a href="/manage/management/resertime/index.jsp"><span>예약시간설정</span></a></li> -->
+<!-- 						<li id="menu10_8" class="/manage/management/resercalendar/"><a href="/manage/management/resercalendar/index.jsp"><span>예약달력설정</span></a></li> -->
 						
 					</ul>
 				</li>
@@ -741,21 +984,38 @@ $(document).ready(function(){
 											</tr>
 										</thead>
 										<tbody>
-							                <!-- 데이터 반복 출력 -->
-							                <tr th:each="schedule : ${paging.content}">
-							                	<td><input type="checkbox"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.id}"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.name}"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.cell}"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.reservationDateTime}"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.majorStatus.description}"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.center.description}"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.eduKind != null ? schedule.eduKind.description : 'N/A'}"></td>
-							                    <td style='cursor:pointer;' th:text="${schedule.reservationStatus}"></td>
-							                    <td></td>
-							                    <td> <button>취소</button> </td>
-							                </tr>
-							            </tbody>
+										    <!-- 데이터 반복 출력 -->
+										    <tr th:each="schedule : ${paging.content}">
+										        <td><input type="checkbox"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.id}"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.name}"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.cell}"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.reservationDate} + ' ' + ${schedule.reservationTime}"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.edutype.description}"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.center.description}"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.eduKind != null ? schedule.eduKind.description : 'N/A'}"></td>
+										        <td style="cursor:pointer;" 
+										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
+										            th:text="${schedule.reservationStatus.description}"></td>
+										        <td></td>
+										        <td><button>취소</button></td>
+										    </tr>
+										</tbody>
+
 									</table>
 								</div>
 									<input type="hidden" name="cmd" id="cmd" value="groupDelete"/>
@@ -765,6 +1025,29 @@ $(document).ready(function(){
 
 								<!-- 페이징 처리 -->
 								<div class="paging_wrap">
+									<div class='page'>
+										<ul class="pagination justify-content-center">
+								            <li class="page-item" th:if="${pageMaker.prev}">
+								                <a class="page-link"
+								                    th:href="@{|?page=${pageMaker.startPage-2}|}">
+								                    <span>&lt;</span>
+								                </a>
+								            </li>
+								            <li th:each="page: ${#numbers.sequence( pageMaker.startPage, pageMaker.endPage)}"
+								                th:classappend="${page == paging.number+1} ? 'active'" 
+								                class="page-item">
+								                <a th:text="${page}" class="page-link" th:href="@{|?page=${page-1}|}"></a>
+								            </li>
+								            <li class="page-item" th:if="${pageMaker.next}">
+								                <a class="page-link" th:href="@{|?page=${pageMaker.endPage}|}">
+								                    <span>&gt;</span>
+								                </a>
+								            </li>
+								        </ul>
+									</div>
+								</div>
+								
+<!-- 								<div class="paging_wrap">
 									<div class='page'> 
 									<strong>1</strong>
 									<a href='/manage/boardAdmin/reservation/index.jsp?reqPageNo=2' class='b_num'>2</a>
@@ -779,7 +1062,8 @@ $(document).ready(function(){
 									<a href='/manage/boardAdmin/reservation/index.jsp?reqPageNo=11' class='next'><img src='/img/li_next_b.png' alt='' /></a> 
 									<a href='/manage/boardAdmin/reservation/index.jsp?reqPageNo=148' class='next no03'><img src='/img/li_next_end.png' alt='' /></a>
 									</div> 
-								</div>
+								</div> 
+-->
 								<!-- //페이징 처리 -->
 
 								<div class="btns_wrap list">
@@ -792,6 +1076,7 @@ $(document).ready(function(){
 
 <!-- 									</div> -->
 								</div>
+								
 								<!--//btn-->
 							</div>
 						</div>

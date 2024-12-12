@@ -36,15 +36,26 @@ public class ConsultationScheduleController {
        Criteria criteria = new Criteria(page+1, 10 );
         int total = (int)paging.getTotalElements();
         model.addAttribute("pageMaker",  new PageDTO(criteria, total));
-        return "consultation_list";
+        return "consultation_list_origin";
     }
     
-    // 방문 삼담 상세 보기
+    // 방문 상담 상세 보기
     @GetMapping("/consultation_detail/{id}")
-    public void detail(@PathVariable("id") Integer id, Model model) {
+    public String detail(@PathVariable("id") Integer id, Model model) {
     	 ConsultationSchedule consultationSchedule = this.consultationScheduleService.getSchedule(id);
          model.addAttribute("consultationSchedule", consultationSchedule);
+         
+         return "consultation_detail_origin";
     }
+    
+    //방문 상담 수정 이동...
+    @GetMapping("/consultation_edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+   	 ConsultationSchedule consultationSchedule = this.consultationScheduleService.getSchedule(id);
+        model.addAttribute("consultationSchedule", consultationSchedule);
+        
+        return "consultation_edit_test";
+   }
     
     
     

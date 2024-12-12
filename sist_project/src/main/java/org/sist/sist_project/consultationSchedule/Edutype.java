@@ -1,13 +1,13 @@
 package org.sist.sist_project.consultationSchedule;
 
-public enum MajorStatus {
+public enum Edutype {
 	
 	MAJOR("전공자"),
-    NON_MAJOR("비전공자");
+	NON_MAJOR("비전공자");
 
     private final String description;
 
-    MajorStatus(String description) {
+    Edutype(String description) {
         this.description = description;
     }
 
