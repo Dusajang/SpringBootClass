@@ -54,7 +54,7 @@ public class ConsultationScheduleController {
    	 ConsultationSchedule consultationSchedule = this.consultationScheduleService.getSchedule(id);
         model.addAttribute("consultationSchedule", consultationSchedule);
         
-        return "consultation_edit_test";
+        return "consultation_edit_origin";
    }
     
     

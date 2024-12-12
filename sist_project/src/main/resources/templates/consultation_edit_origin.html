@@ -95,6 +95,518 @@ $(window).load(function() {
 
 <script src="/js/manage_viewport.js"></script>
 
+
+
+<script>
+var oEditors = new Array();
+var ignore = '';
+$(window).load(function(){
+	
+	inputMaxLength();
+	
+	mkAutoDateFormat();
+	
+	
+	// 에디터 기본 font 설정
+	$(".note-editable.panel-body").find("p font").attr("face",$(".note-current-fontname").css("font-family"));
+		
+	if($("#branch_fk").size() > 0){
+		$("#branch_fk").change(function(){
+			
+			typeSelectbox($(this).val(), 0, 0);
+			
+			
+		});
+		
+		if($(".schedule").size() > 0){
+			$("#branch_fk").change(function(){
+				
+				calendarNewList($("#branch_fk").val(), $("#curMonth").val());
+			});
+		}
+	}
+	
+	if($("#type_fk").size() > 0){
+		$("#type_fk").change(function(){
+			var typekFk = $("#type_fk option:selected").data("branch");
+			
+			if($("#branch_fk").size() > 0){
+				var obj = $("#branch_fk option").filter(function(){if($(this).val() == typekFk){return this}});
+				$(obj).prop("selected",true);
+			}
+			
+			
+			if($("#doctor_fk").size() > 0){
+				doctorSelectbox($("#branch_fk").val(),$(this).val(),0,0);
+			}
+			
+			
+			if($("#branch_fk").size() == 0){
+				if($("#curMonth").size() > 0){
+					calendarNewList(1, $("#curMonth").val());
+				}
+			}else{
+				if($("#curMonth").size() > 0){
+					calendarNewList($("#branch_fk").val() == undefined ? 1 : $("#branch_fk").val(), $("#curMonth").val());
+				}
+			}
+			
+		});
+	
+	}
+	
+	
+	
+	if($("#curMonth").size() > 0){
+		
+		calendarNewList($("#branch_fk").val() == undefined ? 1 : $("#branch_fk").val(), $("#curMonth").val());
+	}
+	
+	
+});
+
+$(window).resize(function(){
+	
+		
+});
+
+
+function fn_textarea_check(ignore){
+		var currentAddr = 'https://www.sist.co.kr/manage/boardAdmin/reservation/edit.jsp';
+		$(".programCon textarea, #bbs textarea").each(function(i){
+				if(ignore.indexOf("|"+i+"|") < 0){
+					var tagCheck = $(this).next().prop("tagName");
+					if(tagCheck == undefined){
+						setSummertnoteEditor($(this).attr("id")); // 에디터 셋팅
+					}
+				}
+		})
+}
+function sendFile(file,editor,welEditable) {
+	  data = new FormData();
+	  data.append("file", file);
+	   $.ajax({
+	   url: "/summernote/image_upload.jsp",
+	   data: data,
+	   cache: false,
+	   contentType: false,
+	   processData: false,
+	   type: 'POST',
+	   success: function(data, msg){  
+//		editor.insertImage(welEditable, data);              
+		$("#"+editor).summernote('insertImage', data.trim());
+		//file 초기화
+		setTimeout(function(){
+			$("#"+editor).val($("#"+editor).summernote('code'))
+		},200)
+
+		$(".form-group [type=file]").each(function(i){
+			$(this).replaceWith($(this).clone(true));				
+		})	
+		
+	},
+	   error: function(jqXHR, textStatus, errorThrown) {
+	   console.log(textStatus+" "+errorThrown);
+	  }
+	});
+}
+function setSummertnoteEditor(editorArea) {
+		$("#"+editorArea).summernote({
+			height:300,
+			minHeight:100,
+			lang: 'ko-KR',
+			callbacks: {
+				onImageUpload: function(files, editor,$editable) {
+//					ajaxSummernoteInsertImage(editorArea);
+					if(navigator.userAgent.indexOf('9.0') == -1) {
+						for(var i=0;i<files.length;i++){
+							sendFile(files[i],editorArea,$editable);
+						}
+					}
+				}
+			}
+		});
+}
+
+function ajaxSummernoteInsertImage(editorArea) {
+//비동기 파일 전송
+	var frm = $('#'+editorArea).closest("form")[0];
+	var action = $(frm).attr("action");
+	
+	$(frm).attr("action","/summernote/image_upload.jsp");
+	
+	//$(frm).append("fileObj", $('#'+editorArea).next().find(".note-v").html());
+	$(frm).ajaxForm({
+		dataType : 'text' ,
+		beforeSubmit : function(){
+			
+		},
+		success : function(json, msg){
+			$("#"+editorArea).summernote('insertImage', json.trim());
+			//file 초기화
+			$(".form-group .note-v [type=file]").each(function(i){
+				$(this).replaceWith($(this).clone(true));				
+			})
+		},
+		error : function(xhr, status, exception){
+			alert("파일전송에 실패하였습니다. \n"+status);
+			return false;
+		}
+	});
+	
+	$(frm).submit();
+
+	$(frm).attr("action",action);
+	$(frm).off();
+}
+
+function imageOnchange(obj){
+	
+	ajaxSummernoteInsertImage($(obj).parents(".note-editor").prev().attr("id")); 
+}
+
+function typeChangeSelectBox(obj){
+	if($("#branch_fk").size() > 0){
+		if($(obj).val() != 0){
+			$("#branch_fk").val($(obj).find("option:selected").attr("id"));
+			if($(".schedule").size() > 0){
+				calendarNewList($("#branch_fk").val(), $("#curMonth").val());
+			}
+		}
+	}
+}
+
+function timeSelectedValue(obj) {
+	//console.log($(obj).data("value"));
+	if($(".schedule_time ul li").size() > 0){
+		$(".schedule_time ul li").removeClass("choiceTime");
+		$(obj).addClass("choiceTime");
+		$("#resertime").val($(obj).data("value"));
+	}else{
+		$("#resertime").val($(obj).val());
+	}
+	
+}
+
+function calendarSelectConDayConfirm(today) {
+	$('.calendar_table td').removeAttr("id");
+	$('.calendar_table td').filter(function(){
+		if( $(this).text().trim() == today.substring(8).trim() ){
+			return this;
+		}
+	}).attr("id", "r_click");
+	
+	$("#reserdate").val(today);
+	$("#resertime").val("");	
+	curTime($("#reserdate").val());
+}
+
+function timeSelectOnLoadConfirm(today) {
+	
+	if($("#tmTime").size() > 0){
+		if($("#tmTime").val().trim() != ""){
+			$("#resertime").val($("#tmTime").val());
+			curTime($("#reserdate").val());
+		}
+		
+	}
+	
+}
+
+function calendarSelectDayConfirm(today) {
+	
+	
+	$('.calendar_table td').removeAttr("id");
+	$('.calendar_table td').filter(function(){
+		if( $(this).text().trim() == today.substring(8).trim() ){
+			return this;
+		}
+	}).attr("id", "r_click");
+	
+	$("#reserdate").val(today);
+	$("#resertime").val("");
+	reserTimeList($("#branch_fk").val(),$("#doctor_fk").val(),$("#reserdate").val(),$("#resertime").val(),0);
+}
+
+
+function calendarSelectMonth(month) {
+	$("#curMonth").val(month);
+}
+
+//분류 selectbox 가져오기
+function typeSelectbox(branch_fk,type_fk,type) {
+	jQuery("#type_fk").load("clinicList.jsp?branch_fk="+branch_fk+"&type_fk="+type_fk+"&type="+type);
+}
+
+// 의료진 selectbox 가져오기
+function doctorSelectbox(branch_fk,type_fk,doctor_fk,type) {
+	type_fk = (type_fk == undefined || type_fk == "") ? 0 : type_fk; 
+	jQuery("#doctor_fk").load("doctorList.jsp?branch_fk="+branch_fk+"&type_fk="+type_fk+"&doctor_fk="+doctor_fk+"&type="+type);
+}
+
+// 의료진 사진 가져오기
+function doctorPhoto(branch_fk,type_fk) {
+	jQuery("#doctorPhoto").load("doctorPhoto.jsp?branch_fk="+branch_fk+"&type_fk="+type_fk);
+}
+
+// 예약달력 가져오기
+function calendarNewList(sbranch_fk, smonth) {
+	$.get("calendarList.jsp?sbranch_fk="+sbranch_fk+"&smonth="+smonth,function(data){
+		$(".schedule").html(data);
+		console.log(data);
+		
+		timeSelectOnLoadConfirm($("#reserdate").val());
+		
+
+
+		if($("[name=p_reserdate]").size() > 0){
+			$("#reserdate").val($("[name=p_reserdate]").val())
+			$("#resertime").val($("[name=p_resertime]").val())
+			reserTimeList($("#branch_fk").val(),$("#doctor_fk").val(),$("#p_reserdate").val(),$("#p_resertime").val(),0);
+		}
+		
+		
+	})
+	//jQuery(".schedule").load();
+}
+
+// 예약시간 가져오기
+function reserTimeList(branch_fk,doctor_fk,reserdate,resertime,times) {
+	jQuery(".schedule_time").load("timeList.jsp?branch_fk="+branch_fk+"&doctor_fk="+doctor_fk+"&reserdate="+reserdate+"&resertime="+resertime+"&times="+times);
+}
+
+
+function telTimeList(selectDay,type) {
+	jQuery("#curTimeList").load("curTimeList.jsp?type="+type+"&selectDay="+selectDay);
+}
+
+// 전화 상담 시간 가져오기
+function curTime(selectDay){
+	$.get("curTimeList.jsp?selectDay="+selectDay,function(data){
+		$(".schedule_time").html(data);
+		
+		if($("#tmTime").size() > 0){
+			timeSelectedValue($("#"+$("#tmTime").val().replace(/:/,"")));
+		}
+		
+	})
+	
+}
+
+
+
+$(function () {
+	
+    var obj = $("#dropzone");
+    
+    obj.on('dragenter', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+         $(this).css('border', '2px solid #5272A0');
+    });
+
+    obj.on('dragleave', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+         $(this).css('border', '2px dotted #8296C2');
+    });
+
+    obj.on('dragover', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+    });
+
+    obj.on('drop', function (e) {
+         e.preventDefault();
+         $(this).css('border', '2px dotted #8296C2');
+
+         var files = e.originalEvent.dataTransfer.files;
+
+         if(files.length < 1)
+			return;
+		
+         F_FileMultiUpload(files, obj);
+    });
+
+});
+
+var fileList = "";     
+var fileCnt  = 0;      //파일갯수
+var loading  = false;
+var table    = "reservation";
+var uploadPath = "/upload/consult/";
+//파일 지우기
+function FileDelete(filename, that){
+	
+		var Deletedata	 = new FormData();
+		$.ajax({
+			url 	    : "/include/boardConfig/process_file.jsp?cmd=delete&filename="+filename+"&table="+table+"&uploadPath="+uploadPath,
+			method 	    : 'post',
+			data        : Deletedata,
+			dataType    : 'json',
+			processData : false,
+			contentType : false,
+			success : function(res) {
+				text = "<label>"+$(that).parent().html()+"</label>";
+				var fileList2 = $("#dropzone").html();
+				
+				fileList2 = fileList2.replace(text, "");
+				fileList = fileList2;
+				fileCnt--;
+				 
+				//alert(fileList.indexOf('<label>'));
+				if(fileList2.indexOf('<label>') == -1){
+					$("#dropzone").html("파일을 올려주세요.");
+				} else {
+					$("#dropzone").html(fileList2);
+				}
+			},
+			error : function(data) {
+				//alert("error");
+			}
+		}); 	
+		//alert(fileList);
+}
+//파일지우기 - 수정
+function FileEditDelete(filename, that){
+	
+		var Deletedata	 = new FormData();
+		text = "<label>"+$(that).parent().html()+"</label>";
+		var fileList2 = $("#dropzone").html();
+		
+		fileList2 = fileList2.replace(text, "");
+		fileList = fileList2;
+		fileCnt--;
+		 
+		//alert(fileList.indexOf('<label>'));
+		if(fileList2.indexOf('<label>') == -1){
+			$("#dropzone").html("파일을 올려주세요.");
+		} else {
+			$("#dropzone").html(fileList2);
+		}
+		
+		var inputFileList  =  $("#delFileList").val();
+		$("#delFileList").val(inputFileList+filename+",");
+}
+//파일 업로드
+function F_FileMultiUpload(files, obj) {
+	fileList = $("#dropzone").html();     
+	var data	 = new FormData();
+	data.append("cmd", "update");
+	//확장자 체크 변수 :[ true -> 사용가능 확장자 false -> 사용 불가능  확장자]
+	var chkFile  = false;
+	//파일 갯수 체크
+	var maxCnt   = 10;
+	
+	if (files.length <= maxCnt && fileCnt + files.length <= maxCnt){
+		//확장자 체크
+		//var selection = [ ".txt", ".jpg", ".png", ".xls", ".gif"];
+		
+		
+		for (var i = 0; i < files.length; i++) {
+			data.append('filenames' + (i + 1), files[i]);
+		}
+		
+		
+		if (!loading) {
+			//console.log("data 1  :::"+data.getAll('filenames1'));
+			loading = true;
+			
+			fileList = fileList.indexOf('<label>') == -1 ? "" : $("#dropzone").html();
+		
+			
+			$.ajax({
+				url 	    : "/include/boardConfig/process_file.jsp?cmd=write"+"&table="+table+"&uploadPath="+uploadPath,
+				method 	    : 'post',
+				data        : data,
+				dataType    : 'json',
+				processData : false,
+				contentType : false,
+				success : function(res) {
+					//alert(res);
+					//alert(res.filename);
+					loading = false;
+					var filenameArray = res.filename.split(",");
+					filenameArray.reverse();
+					fileList += "<font style='color:black; font-weight:bold '>"
+					for (var i = 0; i < files.length; i++) {
+						//alert(data.get('filenames1').name);
+						fileList += "<label>["+files[i].name+"<a onclick='javascript:FileDelete(\""+filenameArray[i+1]+"\", this)'> <img src='/img/ico_cancel.jpg' width='10px' style='vertical-align:initial;'> </a>], </label>";
+						fileCnt++;
+					}
+					
+					fileList += "</font>";
+					
+					$(obj).html(fileList);
+				},
+				error : function(data) {
+					//alert("error");
+				}
+			}); 
+		}
+		else {
+			alert("파일 등록중입니다.");
+		}
+	}
+	else {
+		alert("최대 "+maxCnt+"개의 파일만 첨부 가능합니다.")
+	}
+}
+function FileUploadInit(){
+	var Initdata	 = new FormData();
+	$.ajax({
+		url 	    : "/include/boardConfig/process_file.jsp?cmd=init"+"&table="+table+"&uploadPath="+uploadPath,
+		method 	    : 'post',
+		data        :  Initdata,
+		dataType    : 'json',
+		processData : false,
+		contentType : false,
+		success : function(res) {
+			//alert(res);
+		},
+		error : function(data) {
+			//alert("error");
+		}
+	}); 
+}
+// 파일 멀티 업로드 Callback
+function F_FileMultiUpload_Callback(files) {
+	for (var i = 0; i < files.length; i++)
+		console.log(files[i].file_nm + " - " + files[i].file_size);
+}
+window.onbeforeunload = function(){
+	//서브밋할 경우 안탐
+	if(!isSubmitChk){
+		FileUploadInit();
+	}
+}
+</script>
+<style>
+    #dropzone
+    {
+        border:2px dotted #3292A2;
+        width:90%;
+        height:50px;
+        text-align:center;
+        font-size:14px;
+        padding-top:12px;
+        margin-top:10px;
+    }
+</style>
+<script>
+function memberSearch(){
+	window.open('membersearch.jsp?sval='+$("#name").val(),'searchMember', 'height=400,width=500,scrollbars=yes');
+}
+
+function goSave(obj) {
+	
+	if(validation(obj)){
+		
+		$("#board").submit();	
+		
+	}
+}
+</script>
 </head>
 <body> 
 
@@ -110,7 +622,7 @@ $(window).load(function() {
 
 <div id="com2" style="width:0px; height:0px; position:absolute; left:0px; top:0px; z-index:1;"> 
 <form name="urlMaintain" id="urlMaintain" action="/member/login.jsp" method="post">
-		<input type="hidden" name="url" id="main_url" value="/manage/boardAdmin/reservation/read.jsp">
+		<input type="hidden" name="url" id="main_url" value="/manage/boardAdmin/reservation/edit.jsp">
 		<input type="hidden" name="param" id="main_param" value="reqPageNo=1&no=1560">
 </form>
 </div>
@@ -748,41 +1260,35 @@ $(document).ready(function(){
 					<div class="panel-heading">
 						<div class="pull-left">
 							<!-- property:목록 -->
-							<h4 class="panel-title txt-dark">방문상담예약 - [상세보기]</h4>
+							<h4 class="panel-title txt-dark">방문상담예약 - [수정]</h4>
 						</div>
 						<div class="clearfix"></div>
 					</div>
 					<div class="panel-wrapper collapse in">
 						<div class="panel-body">
 							<div id="bbs">
-								<div id="bread">
-									<!-- property:예약 정보 -->
-									<h3 class="minTitle">예약정보</h3>
-									<div class="table_wrap">
-										<!-- property:관리자 관리 기본내용입니다. -->
-										<div class="table_wrap table_block">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0" summary="관리자 관리 기본내용입니다.">
-												<colgroup>
-													<col width="15%" />
-													<col width="35%" />
-													<col width="15%" />
-													<col width="35%" />
-												</colgroup>
-												<tbody>
-													<tr>
-														<th scope="row"><label for=""><!-- property:예약일시 -->예약일시</label></th>
-														<td th:text="${consultationSchedule.reservationDate} + ' ' + ${consultationSchedule.reservationTime}"></td>
-														<th scope="row"><label for=""><!-- property:예약상태 -->예약상태</label></th>
-														<td th:text="${consultationSchedule.reservationStatus.description}"></td>
-													</tr>
-												</tbody>
-											</table>
+							<form method="post" name="board" id="board" action="https://www.sist.co.kr/manage/boardAdmin/reservation/process.jsp" >
+								<div id="bwrite">
+									<div class="reserveChoice">
+										<div class="r_day">
+											<!-- property:예약일시 -->
+											<h3 class="minTitle">예약일시</h3>
+											<div class="calender_wrap">
+												<div class="schedule"></div>
+											</div>
 										</div>
+										<div class="r_Time">
+											<!-- property:예약시간선택 -->
+											<h3 class="minTitle">예약시간선택</h3>
+											<div class="schedule_time"></div>	
+										</div>
+										<input type="hidden" name="p_reserdate" id="p_reserdate" value="2024-12-12" />
+										<input type="hidden" name="p_resertime" id="p_resertime" value="16:00:00" />
 									</div>
-									<!-- property:예약자 정보 -->
-									<h3 class="minTitle">예약정보</h3>
-									<div class="table_wrap table_block">
+									<!-- property:예약자정보 -->
+									<h3 class="minTitle">예약자정보</h3>
 									<!-- property:관리자 관리 기본내용입니다. -->
+									<div class="table_wrap table_block">
 										<table width="100%" border="0" cellspacing="0" cellpadding="0" summary="관리자 관리 기본내용입니다.">
 											<colgroup>
 												<col width="15%" />
@@ -791,66 +1297,95 @@ $(document).ready(function(){
 												<col width="35%" />
 											</colgroup>
 											<tbody>
-												<tr>
-													<!-- property:성명 -->
-													<th scope="row"><label for="">성명</label></th>
-													<td th:text="${consultationSchedule.name}"></td>
-													<!-- property:이메일 -->
-													<th scope="row"><label for="">이메일</label></th>
-													<td th:text="${consultationSchedule.email}"></td>
-												</tr>
-												<tr>
-													<!-- property:연락처 -->
-													<th scope="row"><label for="">연락처</label></th>
-													<td th:text="${consultationSchedule.tel}"></td>
-													<!-- property:휴대폰 -->
-													<th scope="row"><label for="">휴대폰</label></th>
-													<!-- property:문자보내기 -->
-													<td th:text="${consultationSchedule.cell}"></td>
-												</tr>
-												<tr>
-													<th scope="row">전공유무</th>
-													<td th:text="${consultationSchedule.edutype.description}"></td>
-													<th scope="row">지점선택</th>
-													<td th:text="${consultationSchedule.center.description}"></td>
-												</tr>
-												<tr>
-													<th scope="row">상담과목</th>
-													<td colspan="3" th:text="${consultationSchedule.eduKind != null ? consultationSchedule.eduKind.description : 'N/A'}"></td>
-												</tr>
-												<tr>
-													<!-- property:등록일 -->
-													<th scope="row"><label for="">등록일</label></th>
-													<td colspan="3" th:text="${consultationSchedule.reservationDate} + ' ' + ${consultationSchedule.reservationTime}"></td>
-												</tr>
-												<tr>
-													<!-- property:내용 -->
-													<th scope="row"><label for="">내용</label></th>
-													<td colspan="3" th:text="${consultationSchedule.etc != null ? consultationSchedule.etc : 'N/A'}"></td>
-												</tr>
+											    <tr>
+											        <th scope="row"><label for="">이름</label></th>
+											        <td>
+											            <input type="text" id="name" name="name" th:value="${consultationSchedule.name}" data-value="이름을 입력해주세요." />
+											            <a class="blue_btn" href="javascript:;" id="member" onclick="memberSearch();">검색</a>
+											        </td>
+											        <th scope="row"><label for="">비밀번호</label></th>
+											        <td><input type="password" id="password" name="password" th:value="${consultationSchedule.password}" /></td>
+											    </tr>
+											    <tr>
+											        <th scope="row"><label for="">연락처</label></th>
+											        <td><input type="text" id="tel" name="tel" th:value="${consultationSchedule.tel}" /></td>
+											        <th scope="row"><label for="">휴대폰</label></th>
+											        <td><input type="text" id="cell" name="cell" th:value="${consultationSchedule.cell}" /></td>
+											    </tr>
+											    <tr>
+											        <th scope="row"><label for="">이메일</label></th>
+											        <td colspan="3"><input type="text" id="email" name="email" th:value="${consultationSchedule.email}" /></td>
+											    </tr>
+											    <tr>
+											        <th>전공유무</th>
+											        <td>
+											            <label>
+											                <input type="radio" name="edutype" value="MAJOR"
+											                       th:checked="${consultationSchedule.edutype != null and consultationSchedule.edutype == T(org.sist.sist_project.consultationSchedule.Edutype).MAJOR}">
+											                전공자
+											            </label>
+											            <label>
+											                <input type="radio" name="edutype" value="NON_MAJOR"
+											                       th:checked="${consultationSchedule.edutype != null and consultationSchedule.edutype == T(org.sist.sist_project.consultationSchedule.Edutype).NON_MAJOR}">
+											                비전공자
+											            </label>
+											        </td>
+											        <th>지점선택</th>
+											        <td>
+											            <label>
+											                <input type="radio" name="center" value="GANGNAM"
+											                       th:checked="${consultationSchedule.center != null and consultationSchedule.center == T(org.sist.sist_project.consultationSchedule.CenterType).GANGNAM}">
+											                강남교육센터
+											            </label>
+											            <label>
+											                <input type="radio" name="center" value="GANGBUK"
+											                       th:checked="${consultationSchedule.center != null and consultationSchedule.center == T(org.sist.sist_project.consultationSchedule.CenterType).GANGBUK}">
+											                강북교육센터
+											            </label>
+											        </td>
+											    </tr>
+											    <tr>
+											        <th>내용</th>
+											        <td colspan="3">
+											            <textarea name="etc" id="etc" rows="5" style="width:100%;"
+											                      th:text="${consultationSchedule.etc != null ? consultationSchedule.etc : ''}">
+											            </textarea>
+											        </td>
+											    </tr>
 											</tbody>
+
 										</table>
 									</div>
 									
+									<input type="hidden" name="state" id="state" value="3"/><!-- 관리자 예약 시 상태는 완료 상태로 -->
+									<input type="hidden" name="offname" id="offname" value="송아람" />
+									<input type="hidden" name="cmd" value="edit"/>
+									<!-- property:수정 -->
+									<input type="hidden" name="lastchange" value="수정"/>
+									<input type="hidden" name="offchgname" value="송아람"/>
+									<input type="hidden" name="no" id="no" value="1560"/>
+									
+									<input type="hidden" name="hospital_fk" id="hospital_fk" value="1"/>
+																
+									
+									<input type="hidden" name="doctor_fk" id="doctor_fk" value="1" />
+									
+									<input type="hidden" name="curMonth" id="curMonth" value="2024-12"/>
 									<div class="btns_wrap">
 										<div class="pull-left">
 											<!-- property:목록 -->
-											<a class="btns btns_blue_line" href="index.jsp?reqPageNo=1"><strong>목록</strong></a>
+											<a class="btns btns_blue_line" th:href="@{/schedule}"><strong>목록</strong></a>
 										</div>
 										<div class="pull-right">
-											
-											
-											<!-- property:예약취소 -->
-											<a class="btns btns_red" href="#" onclick="window.open('reserCancel.jsp?no=1560&hospital_fk=1', 'reserCancel' , 'scrollbars=0, resizable=0, top=300, left=800, width=360, height=260');"> <strong>예약취소</strong> </a>
-											
-<!-- 											property:수정 -->
-											<a class="btns btns_blue" th:href="@{|/consultation_edit/${consultationSchedule.id}|}"><strong>수정</strong></a>
-											<!-- property:삭제 -->
-											<a class="btns btns_red" href="javascript:;" onClick="delConfirm('삭제하시겠습니까?','process.jsp?cmd=delete&no=1560');"><strong>삭제</strong></a>
+											<!-- property:저장 -->
+											<a class="btns btns_blue" href="javascript:;" onclick="goSave(this);"><strong>저장</strong></a>
 										</div>
 									</div>
+									
+									
 									<!--//btn-->
 								</div>
+							</form>
 								<!-- //bread -->
 							</div>
 						</div>
