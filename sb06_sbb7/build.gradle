@@ -58,6 +58,9 @@ dependencies {
     //타임리프 템플릿 엔진 + 스프링 시큐리티 프레임워크를 함께 사용할 때 필요한 타임리프의 확장 기능 모듈
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     
+    // 마크다운 라이브러리 모듈
+    implementation 'org.commonmark:commonmark:0.21.0'
+    
     // 반드시 코딩 수정시 refrech gradle project 하자...
 }
 

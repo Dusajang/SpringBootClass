@@ -1,45 +1,88 @@
 [수업내용정리]
-	
-1. 질문/답변 수정과 삭제 기능 추가하기
-	엔티티  -  수정날짜
-	
-2. 질문상세페이지 : 질문 수정 버튼 추가
-	detail.html -- 수정 버튼
-	질문컨트롤러
-	create.html -> 수정 코딩
-	
-	컨트롤러, 서비스 코딩 수정
-	
-3. 질문 삭제
-	detail.html 삭제
-	fragment 조각
-[
-<script type='text/javascript'>
-const delete_elements = document.getElementsByClassName("delete");
-Array.from(delete_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        if(confirm("정말로 삭제하시겠습니까?")) {
-            location.href = this.dataset.uri;
-        };
-    });
-});
-</script>
-]
-layout.html에 스크립트 코딩 조각을 내가 원하는 위치에 주자
-
-4. 질문 삭제 컨트롤러, 서비스 체크
-
-
-
-5. 답변 수정/삭제 처리....
-
-6. 수정된 일자 출력
 
 
 (12/12 작업)
-좋아요/추천 기능 구현
-앵커 기능
-마크다운 적용
+	1) 좋아요/추천 기능 구현
+		질문 추천(좋아요)
+		답변   "
+		
+		ㄱ. 질문 엔티티, 답변 엔티티 + 추천인
+			// 답변 - 회원 다대다
+			@ManyToMany
+			private Set<SiteUser> voter;
+			// 질문 - 회원 다대다
+			@ManyToMany
+			private Set<SiteUser> voter;
+			
+		ㄴ. detail.html
+			질문 = 추천 버튼 추가
+			답변 = 추천 버튼 추가
+			
+		ㄷ. 추천 요청, 서비스 컨트롤러 수정
+			/question/vote/2
+			
+			QuestionService
+			
+			
+			
+			
+	2) 앵커 기능
+		항상 스크롤이 상단 ->> 새로 달린 답변으로 스크롤을 이동...
+		
+		
+		
+	
+	3) 마크다운 적용
+		답변 /질문 서식이 있는 텍스트 형태로 출력....
+		
+		ㄱ. 마크다운 라이브러리 설치
+		implementation 'org.commonmark:commonmark:0.21.0'
+		
+		ㄴ. 일반텍스트 -> 마크다운이 적용된 텍스트 변환     라이브러리 선언
+			util.CommonUtil.java
+			
+		ㄷ. detail.html
+			질문 내용 출력 -> 일반 문자 > 마크다운 적용된 문자
+			답변 내용 출력
+	
+	
+	4) 검색 기능
+	select
+    distinct q.id,
+    q.author_id,
+    q.content,
+    q.create_date,
+    q.modify_date,
+    q.subject 
+from question q 
+left outer join site_user u1 on q.author_id=u1.id 
+left outer join answer a on q.id=a.question_id 
+left outer join site_user u2 on a.author_id=u2.id 
+	where
+	    q.subject like '%스프링%' 
+	    or q.content like '%스프링%' 
+	    or u1.username like '%스프링%' 
+	    or a.content like '%스프링%' 
+	    or u2.username like '%스프링%' 
+	    
+	    JPA를 사용해서 여러 테이블을 조인해서 검색할 경우에는 Specification 인터페이스를 사용하면 편리하다.
+	    Specification 인터페이스는 DB 검색을 더 유연하게 해준다. + 복잡한 검색조건도 처리...
+	    
+	    QuestionRepository
+	    	ㄴ Page<Question> findAll(Specification<Question> spec, Pageable pageable);
+	    
+	    Specification<Question> spec 선언...
+	    
+	    QuestionService
+	     ㄴ Specification<Question> search(){}
+	     ㄴ @Query  어노테이션   권장X
+	     
+	     
+	     
+	 ****	list.html 페이징 블럭 수정 + js 부분 수정해야 한다. [왜??]
+	 
+	 검색버튼(찾기) 버튼을 클릭할 때....검색어 kw/현재페이지번호   <form> hidden
+	 form.submit();
 	 
 	 
 	 

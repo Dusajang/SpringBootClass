@@ -52,6 +52,8 @@ public class QuestionController {
    } // list
    */
    
+   
+   /*
    // [2]
    @GetMapping("/list")
    public void list(Model model
@@ -64,6 +66,25 @@ public class QuestionController {
        int total = (int)paging.getTotalElements();
        model.addAttribute("pageMaker",  new PageDTO(criteria, total));
    } // list
+   */
+   //[3] 검색 기능 포함
+   @GetMapping("/list")
+   public void list(Model model
+         , @RequestParam(value = "page", defaultValue = "0") int page
+         , @RequestParam(value = "kw", defaultValue = "") String kw
+         ) {
+      // 페이징 처리가 된 객체 : paging
+      Page<Question> paging = this.questionService.getList(page, kw);
+      model.addAttribute("paging", paging); // 담기
+      model.addAttribute("kw", kw); // 담기
+      
+      Criteria criteria = new Criteria(page+1, 10 );
+       int total = (int)paging.getTotalElements();
+       model.addAttribute("pageMaker",  new PageDTO(criteria, total));
+       
+       
+   } // list
+   
    
    // 질문 상세 보기
    // question/detail/2
@@ -166,6 +187,16 @@ public class QuestionController {
           }
           this.questionService.delete(question);
           return "redirect:/";
+      }
+      
+      //추천 처리 
+      @PreAuthorize("isAuthenticated()")
+      @GetMapping("/vote/{id}")
+      public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+          Question question = this.questionService.getQuestion(id);
+          SiteUser siteUser = this.userService.getUser(principal.getName());
+          this.questionService.vote(question, siteUser);
+          return String.format("redirect:/question/detail/%s", id);
       }
    
 } // class
