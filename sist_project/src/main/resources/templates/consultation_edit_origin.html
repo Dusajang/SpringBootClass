@@ -1345,6 +1345,27 @@ $(document).ready(function(){
 											        </td>
 											    </tr>
 											    <tr>
+											    	<th>상담과목</th>
+								                    <!-- <td th:text="${consultationSchedule.eduKind != null ? consultationSchedule.eduKind.description : 'N/A'}"></td> -->
+								                    <td colspan="3">
+													    <label class="radio_custom">
+													        <input type="radio" name="eduKind" value="EMPLOYED"
+													               th:checked="${consultationSchedule.eduKind == T(org.sist.sist_project.consultationSchedule.EduKind).EMPLOYED}">
+													        <span></span>재직자 교육과정
+													    </label>
+													    <label class="radio_custom">
+													        <input type="radio" name="eduKind" value="OB_SEEKER"
+													               th:checked="${consultationSchedule.eduKind == T(org.sist.sist_project.consultationSchedule.EduKind).JOB_SEEKER}">
+													        <span></span>취업 교육과정
+													    </label>
+													    <label class="radio_custom">
+													        <input type="radio" name="eduKind" value="OTHER"
+													               th:checked="${consultationSchedule.eduKind == T(org.sist.sist_project.consultationSchedule.EduKind).OTHER}">
+													        <span></span>기타 과정
+													    </label>
+													</td>
+											    </tr>
+											    <tr>
 											        <th>내용</th>
 											        <td colspan="3">
 											            <textarea name="etc" id="etc" rows="5" style="width:100%;"
