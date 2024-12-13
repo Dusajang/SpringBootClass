@@ -1,15 +1,25 @@
 package org.sist.sist_project.consultationSchedule;
 
+import java.security.Principal;
+
 import org.sist.sist_project.page.Criteria;
 import org.sist.sist_project.page.PageDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RequiredArgsConstructor
 @Controller
@@ -56,6 +66,18 @@ public class ConsultationScheduleController {
         
         return "consultation_edit_origin";
    }
+    
+    
+    //방문상담 수정 처리...
+    @PostMapping("/consultation_edit/{id}")
+    public String postMethodName(ConsultationSchedule consultationSchedule, @PathVariable("id") Integer id) {
+        
+        
+        return "consultation_list_origin";
+    }
+    
+
+    
     
     
     

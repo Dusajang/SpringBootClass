@@ -35,7 +35,7 @@ public class ConsultationScheduleService {
  		return this.consultationScheduleRepository.findAll(pageable);
  	} //
  	
- // id에 해당하는 삼담자 상세정보
+ 	// id에 해당하는 상담자 상세정보
  	public ConsultationSchedule getSchedule(Integer id) {
  		Optional<ConsultationSchedule> oCon = this.consultationScheduleRepository.findById(id);
  		return oCon.get();

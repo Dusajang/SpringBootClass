@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>SiSt SBB!</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap/bootstrap.min.css}">
+<!-- sbb CSS -->
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- 네비게이션바 추가 -->
+<nav th:replace="~{/question/navbar::navbarFragment}"></nav>
+
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<th:block layout:fragment="content"></th:block>
+<!-- 기본 템플릿 안에 삽입될 내용 End -->
+
+
+<!-- Bootstrap JS -->
+<script th:src="@{/bootstrap/bootstrap.min.js}"></script>
+	
+<!-- 자바스크립트 Start -->
+<th:block layout:fragment="script"></th:block>
+<!-- 자바스크립트 End -->
+</body>
+</html>
