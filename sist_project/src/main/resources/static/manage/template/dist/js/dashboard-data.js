@@ -3,14 +3,14 @@
 "use strict"; 
 
 /*****Ready function start*****/
-$(document).ready(function(){
+/*$(document).ready(function(){
 	$('#statement').DataTable({
 		"bFilter": false,
 		"bLengthChange": false,
 		"bPaginate": false,
 		"bInfo": false,
 	});
-});
+});*/
 /*****Ready function end*****/
 
 /*****Load function start*****/

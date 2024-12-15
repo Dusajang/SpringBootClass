@@ -1,11 +1,7 @@
 package org.sist.sist_project.consultationSchedule;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;

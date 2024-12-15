@@ -40,4 +40,30 @@ public class ConsultationScheduleService {
  		Optional<ConsultationSchedule> oCon = this.consultationScheduleRepository.findById(id);
  		return oCon.get();
  	} //
+ 	
+ 	//아이디로 조회..(1개)
+ 	public Optional<ConsultationSchedule> getScheduleById(Integer id) {
+ 	    return consultationScheduleRepository.findById(id);
+ 	}
+ 	
+ 	public void save(ConsultationSchedule schedule) {
+ 	    consultationScheduleRepository.save(schedule);
+ 	}
+ 	
+ 	// 기존 데이터 업데이트 메서드
+ 	public void updateSchedule(ConsultationSchedule existingSchedule, ConsultationSchedule updatedSchedule) {
+ 	    existingSchedule.setName(updatedSchedule.getName());
+ 	    existingSchedule.setEmail(updatedSchedule.getEmail());
+ 	    existingSchedule.setTel(updatedSchedule.getTel());
+ 	    existingSchedule.setReservationDate(updatedSchedule.getReservationDate());
+ 	    existingSchedule.setReservationTime(updatedSchedule.getReservationTime());
+ 	    existingSchedule.setEtc(updatedSchedule.getEtc());
+ 	    existingSchedule.setCenter(updatedSchedule.getCenter());
+ 	}
+ 	
+ 	// 삭제 처리..
+ 	public void deleteById(Integer id) {
+        consultationScheduleRepository.deleteById(id);
+    }
+ 	
 }

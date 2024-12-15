@@ -1360,7 +1360,7 @@ $(document).ready(function(){
 	<script src="/manage/template/dist/js/dropdown-bootstrap-extended.js"></script>
 	
 	<!-- Sparkline JavaScript -->
-	<script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script>
+	<!--<script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script>-->
 	
 	<!-- Owl JavaScript -->
 	<script src="/manage/template/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>

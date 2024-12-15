@@ -22,7 +22,7 @@
 <link href="/manage/css/board.css" rel="stylesheet" type="text/css" />
 <link href="/manage/css/manage.css" rel="stylesheet" type="text/css" />
 <link href="/css/colorPicker.css" rel="stylesheet" type="text/css" />
-<link href="/summernote/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="/js/jstree_/css/style.min.css" />
 <link rel="stylesheet" href="/css/jquery.datetimepicker.css" type="text/css" media="all" />
 
@@ -30,6 +30,12 @@
 <script type="text/javascript" src="/js/menu.js"></script>
 <script type="text/javascript" src="/js/calendar_beans_v2.0.js"></script>
 <script type="text/javascript" src="/js/jquery-1.8.0.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.20/build/jquery.datetimepicker.full.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.20/build/jquery.datetimepicker.min.css">
+
 
 <!-- 달력 변경 jquery.js 버젼업, datetimepicker.full.js 달력 js -->
 <script src="/js/jquery.js"></script>
@@ -60,7 +66,7 @@
 <script type='text/javascript' src='/js/validationBind.js'></script> 
 
 
-<link rel="stylesheet/less" type="text/css" href="/manage/css/color.less">
+<!-- <link rel="stylesheet/less" type="text/css" href="/manage/css/color.less"> -->
 <script type="text/javascript" src="/manage/include/less.min.js"></script>
 
 
@@ -93,7 +99,7 @@ $(window).load(function() {
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>  -->
 <!-- <script src="/template/vendors/bower_components/jquery/dist/jquery.min.js"></script> -->
 
-<script src="/js/manage_viewport.js"></script>
+<!-- <script src="/js/manage_viewport.js"></script> -->
 
 
 
@@ -351,7 +357,7 @@ function doctorPhoto(branch_fk,type_fk) {
 
 // 예약달력 가져오기
 function calendarNewList(sbranch_fk, smonth) {
-	$.get("calendarList.jsp?sbranch_fk="+sbranch_fk+"&smonth="+smonth,function(data){
+	/*$.get("calendarList.jsp?sbranch_fk="+sbranch_fk+"&smonth="+smonth,function(data){
 		$(".schedule").html(data);
 		console.log(data);
 		
@@ -366,7 +372,7 @@ function calendarNewList(sbranch_fk, smonth) {
 		}
 		
 		
-	})
+	})*/
 	//jQuery(".schedule").load();
 }
 
@@ -1274,17 +1280,147 @@ $(document).ready(function(){
 											<!-- property:예약일시 -->
 											<h3 class="minTitle">예약일시</h3>
 											<div class="calender_wrap">
-												<div class="schedule"></div>
-											</div>
+										        <div class="schedule">
+										            <label for="reserdate">예약 날짜</label>
+										            <input type="text" id="reserdate" th:value="${consultationSchedule.reservationDate}">
+										        </div>
+										    </div>
 										</div>
 										<div class="r_Time">
 											<!-- property:예약시간선택 -->
 											<h3 class="minTitle">예약시간선택</h3>
-											<div class="schedule_time"></div>	
+											<div class="schedule_time">
+												<select class="sel_time">
+													    <!-- <option th:value="${consultationSchedule.reservationTime}" th:text="${consultationSchedule.reservationTime}"></option> -->
+												</select>
+											</div>	
 										</div>
-										<input type="hidden" name="p_reserdate" id="p_reserdate" value="2024-12-12" />
-										<input type="hidden" name="p_resertime" id="p_resertime" value="16:00:00" />
+										<input type="hidden" name="reservationDate" id="p_reserdate" th:value="${consultationSchedule.reservationDate}" />
+										<input type="hidden" name="reservationTime" id="p_resertime" th:value="${consultationSchedule.reservationTime}" />
 									</div>
+									
+									
+									<script>
+									$(document).ready(function () {
+									    // 내일 날짜 계산
+									    const today = new Date();
+									    const tomorrow = new Date(today);
+									    tomorrow.setDate(today.getDate() + 1); // 오늘 날짜에서 1일 추가
+									
+									    // 시간 데이터 배열 정의
+									    const timeOptions = [
+									        '시간을 선택하세요', '10:00', '10:30', '11:00', '14:00', '14:30',
+									        '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'
+									    ];
+									
+									    // select 요소 가져오기
+									    const selectElement = document.querySelector('.sel_time');
+									
+									    // 옵션 업데이트 함수
+									    function updateTimeOptions(selectedTime = null, reservedTimes = []) {
+									        // 기존 옵션 제거
+									        selectElement.innerHTML = '';
+									
+									        // 새 옵션 추가
+									        timeOptions.forEach(time => {
+									            const option = document.createElement('option');
+									            option.value = time;
+									            option.textContent = time;
+									
+									            // 예약된 시간일 경우 스타일 및 텍스트 수정
+										        if (reservedTimes.includes(time)) {
+										            option.textContent = `${time} (예약 불가)`; // 문구 추가
+										            option.style.textDecoration = 'line-through'; // 줄긋기 스타일 적용
+										            option.disabled = true; // 비활성화
+										        } else {
+										            option.textContent = time; // 일반 시간 표시
+										        }
+									
+									            // 선택된 시간 설정
+									            if (time === selectedTime) {
+									                option.selected = true;
+									            }
+									
+									            selectElement.appendChild(option);
+									        });
+									
+									        // 시간 선택 이벤트 핸들러 (옵션이 새로 추가된 후에 바인딩)
+									        $('.sel_time').off('change').on('change', function () {
+									            const selectedTime = $(this).val(); // 선택된 시간 가져오기
+									            console.log('Selected time:', selectedTime);
+									
+									            // 숨겨진 필드에 선택된 시간 저장
+									            $('#p_resertime').val(selectedTime);
+									        });
+									    }
+									
+									    // 초기 옵션 설정
+									    function updateInitialOptions() {
+									        const defaultReservationTime = "[[${consultationSchedule.reservationTime}]]"; // Thymeleaf에서 전달된 초기 값
+									        updateTimeOptions(defaultReservationTime, []); // 예약 시간 없음
+									    }
+									
+									    // 날짜 선택 시 옵션 업데이트
+									    function updateOptionsOnDateSelect(selectedDate) {
+									        console.log('Selected date:', selectedDate);
+									
+									        
+									
+									        // 서버에서 예약된 시간 가져오기
+											$('#reserdate').datetimepicker({
+											    format: 'Y-m-d',        // 날짜 형식
+											    timepicker: false,      // 시간 선택 비활성화
+											    minDate: new Date(),    // 오늘 이후 날짜만 선택 가능
+											    defaultDate: new Date(), // 초기 날짜를 오늘 날짜로 설정
+											    onSelectDate: function (ct) {
+											        const selectedDate = ct.toLocaleDateString('en-CA'); // 로컬 날짜 가져오기
+											        console.log('Selected date:', selectedDate);
+											        
+											        // 숨겨진 필드에 선택된 날짜 저장
+									        		$('#p_reserdate').val(selectedDate);
+											
+											        // 서버에 AJAX 요청 보내기
+											        $.ajax({
+											            url: '/api/reserved-times',
+											            type: 'GET',
+											            data: { date: selectedDate },
+											            success: function (reservedTimes) {
+											                console.log('Reserved times:', reservedTimes);
+											                updateTimeOptions(null, reservedTimes); // 예약된 시간 옵션 갱신
+											            },
+											            error: function (error) {
+											                console.error('Error fetching reserved times:', error);
+											            }
+											        });
+											    }
+											});
+									    }
+									
+									    // datetimepicker 초기화
+									    $('#reserdate').datetimepicker({
+									        format: 'Y-m-d', // 날짜 형식
+									        timepicker: false, // 시간 선택 비활성화
+									        minDate: today, // 내일부터 선택 가능
+									        onSelectDate: function (ct) {
+									            const selectedDate = ct.toISOString().split('T')[0]; // 선택된 날짜 포맷팅
+									            updateOptionsOnDateSelect(selectedDate); // 날짜 선택 시 옵션 업데이트 호출
+									        }
+									    });
+									
+									    // 초기 옵션 설정 호출
+									    updateInitialOptions();
+									});
+
+
+
+
+								     
+								     
+								    
+								    
+									</script>
+									
+									
 									<!-- property:예약자정보 -->
 									<h3 class="minTitle">예약자정보</h3>
 									<!-- property:관리자 관리 기본내용입니다. -->
@@ -1354,7 +1490,7 @@ $(document).ready(function(){
 													        <span></span>재직자 교육과정
 													    </label>
 													    <label class="radio_custom">
-													        <input type="radio" name="eduKind" value="OB_SEEKER"
+													        <input type="radio" name="eduKind" value="JOB_SEEKER"
 													               th:checked="${consultationSchedule.eduKind == T(org.sist.sist_project.consultationSchedule.EduKind).JOB_SEEKER}">
 													        <span></span>취업 교육과정
 													    </label>
@@ -1439,29 +1575,29 @@ $(document).ready(function(){
     <!-- Bootstrap Core JavaScript -->
     
 	<!-- Data table JavaScript -->
-	<script src="/manage/template/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+	<!-- <script src="/manage/template/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script> -->
 	
 	<!-- Slimscroll JavaScript -->
 	<script src="/manage/template/dist/js/jquery.slimscroll.js"></script>
 	
 	<!-- Progressbar Animation JavaScript -->
-	<script src="/manage/template/vendors/bower_components/waypoints/lib/jquery.waypoints.min.js"></script>
-	<script src="/manage/template/vendors/bower_components/jquery.counterup/jquery.counterup.min.js"></script>
+	<!-- <script src="/manage/template/vendors/bower_components/waypoints/lib/jquery.waypoints.min.js"></script> -->
+	<!-- <script src="/manage/template/vendors/bower_components/jquery.counterup/jquery.counterup.min.js"></script> -->
 	
 	<!-- Fancy Dropdown JS -->
 	<script src="/manage/template/dist/js/dropdown-bootstrap-extended.js"></script>
 	
 	<!-- Sparkline JavaScript -->
-	<script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script>
+	<!-- <script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script> -->
 	
 	<!-- Owl JavaScript -->
-	<script src="/manage/template/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
+	<!-- <script src="/manage/template/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script> -->
 	
 	<!-- Switchery JavaScript -->
-	<script src="/manage/template/vendors/bower_components/switchery/dist/switchery.min.js"></script>
+	<!-- <script src="/manage/template/vendors/bower_components/switchery/dist/switchery.min.js"></script> -->
 	
 	<!-- Toast JavaScript -->
-	<script src="/manage/template/vendors/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+	<!-- <script src="/manage/template/vendors/bower_components/jquery-toast-plugin/dist/jquery.toast.min.js"></script> -->
 	
 	<!-- Init JavaScript -->
 	<script src="/manage/template/dist/js/init.js"></script>

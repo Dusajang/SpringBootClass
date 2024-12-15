@@ -1,5 +1,5 @@
 /* Noto Sans KR 폰트 설정 - font-family 사용할 때 사용*/
-@font-face {
+/* @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 100;
@@ -61,4 +61,4 @@
         url(/fonts/NotoSans-Black.woff) format('woff'),
         url(/fonts/NotoSans-Black.eot) format('eot'),
         url(/fonts/NotoSans-Black.otf) format('opentype');
- }
+ } */

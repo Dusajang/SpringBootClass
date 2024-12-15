@@ -22,7 +22,7 @@
 <link href="/manage/css/board.css" rel="stylesheet" type="text/css" />
 <link href="/manage/css/manage.css" rel="stylesheet" type="text/css" />
 <link href="/css/colorPicker.css" rel="stylesheet" type="text/css" />
-<link href="/summernote/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="/css/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="/js/jstree_/css/style.min.css" />
 <link rel="stylesheet" href="/css/jquery.datetimepicker.css" type="text/css" media="all" />
 
@@ -1012,10 +1012,18 @@ $(document).ready(function(){
 										            th:onclick="'location.href=\'/consultation_detail/' + ${schedule.id} + '\';'" 
 										            th:text="${schedule.reservationStatus.description}"></td>
 										        <td></td>
-										        <td><button>취소</button></td>
+										        <td>
+										        <a href="javascript:void(0);" onclick="confirmDelete('[[${schedule.id}]]')">취소</a>
+										        </td>
 										    </tr>
 										</tbody>
-
+<script>
+    function confirmDelete(id) {
+        if (confirm("정말로 이 예약을 취소하시겠습니까?")) {
+            location.href = `/consultations_delete/${id}`;
+        }
+    }
+</script>
 									</table>
 								</div>
 									<input type="hidden" name="cmd" id="cmd" value="groupDelete"/>
@@ -1122,7 +1130,7 @@ $(document).ready(function(){
 	<script src="/manage/template/dist/js/dropdown-bootstrap-extended.js"></script>
 	
 	<!-- Sparkline JavaScript -->
-	<script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script>
+	<!-- <script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script> -->
 	
 	<!-- Owl JavaScript -->
 	<script src="/manage/template/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
@@ -1137,4 +1145,19 @@ $(document).ready(function(){
 	<script src="/manage/template/dist/js/init.js"></script>
 	<script src="/manage/template/dist/js/dashboard-data.js"></script>
 </body>
+
+<script>
+    // 성공 메시지 표시
+    let successMessage = "[[${successMessage}]]";
+    if (successMessage) {
+        alert(successMessage);
+    }
+
+    // 실패 메시지 표시
+    let errorMessage = "[[${errorMessage}]]";
+    if (errorMessage) {
+        alert(errorMessage);
+    }
+</script>
+
 </html>

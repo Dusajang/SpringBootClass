@@ -846,9 +846,19 @@ $(document).ready(function(){
 <!-- 											property:수정 -->
 											<a class="btns btns_blue" th:href="@{|/consultation_edit/${consultationSchedule.id}|}"><strong>수정</strong></a>
 											<!-- property:삭제 -->
-											<a class="btns btns_red" href="javascript:;" onClick="delConfirm('삭제하시겠습니까?','process.jsp?cmd=delete&no=1560');"><strong>삭제</strong></a>
+											<a class="btns btns_red" href="javascript:void(0);"
+											   th:onclick="'confirmDelete(' + \'' + ${schedule.id} + '\' + ')'">
+											    <strong>삭제</strong>
+											</a>
 										</div>
 									</div>
+<script>
+    function confirmDelete(id) {
+        if (confirm("정말로 삭제하시겠습니까?")) {
+            location.href = '/consultation_delete/' + id;
+        }
+    }
+</script>
 									<!--//btn-->
 								</div>
 								<!-- //bread -->
@@ -896,7 +906,7 @@ $(document).ready(function(){
 	<script src="/manage/template/dist/js/dropdown-bootstrap-extended.js"></script>
 	
 	<!-- Sparkline JavaScript -->
-	<script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script>
+	<!-- <script src="/manage/template/vendors/jquery.sparkline/dist/jquery.sparkline.min.js"></script> -->
 	
 	<!-- Owl JavaScript -->
 	<script src="/manage/template/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
