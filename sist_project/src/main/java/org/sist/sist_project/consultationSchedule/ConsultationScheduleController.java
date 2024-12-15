@@ -118,11 +118,20 @@ public class ConsultationScheduleController {
         return "redirect:/schedules";
     }
     
-
+    // 예약 삭제
     @GetMapping("/consultation_delete/{id}")
     public String deleteConsultation(@PathVariable("id") Integer id) {
         consultationScheduleService.deleteById(id); // 서비스 호출
-        return "redirect:/consultations"; // 삭제 후 목록으로 리다이렉트
+        return "redirect:/schedules"; // 삭제 후 목록으로 리다이렉트
+    }
+    
+    // 예약 취소
+    @GetMapping("/consultation_cancel/{id}")
+    public String cancelConsultation(@PathVariable("id") Integer id) {
+    	// 예약 상태를 '취소'로 업데이트
+        consultationScheduleService.cancelReservation(id);
+        
+        return "redirect:/schedules"; // 삭제 후 목록으로 리다이렉트
     }
     
     

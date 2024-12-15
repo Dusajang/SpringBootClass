@@ -846,9 +846,8 @@ $(document).ready(function(){
 <!-- 											property:수정 -->
 											<a class="btns btns_blue" th:href="@{|/consultation_edit/${consultationSchedule.id}|}"><strong>수정</strong></a>
 											<!-- property:삭제 -->
-											<a class="btns btns_red" href="javascript:void(0);"
-											   th:onclick="'confirmDelete(' + \'' + ${schedule.id} + '\' + ')'">
-											    <strong>삭제</strong>
+											<!-- <a class="btns btns_red" href="javascript:void(0);" th:data-uri="@{|/consultation_delete/${consultationSchedule.id}|}"> -->
+											<a id="delete" class="btns btns_red" href="javascript:void(0);" th:data-uri="@{|/consultation_delete/${consultationSchedule.id}|}">삭제</a>
 											</a>
 										</div>
 									</div>
@@ -858,6 +857,15 @@ $(document).ready(function(){
             location.href = '/consultation_delete/' + id;
         }
     }
+    
+// 삭제 링크
+document.querySelector('#delete').addEventListener('click', function () {
+    if (confirm("정말로 삭제하시겠습니까?")) {
+        const uri = this.getAttribute('data-uri'); // data-uri 속성에서 URI 가져오기
+        location.href = uri; // 해당 URI로 이동
+    }
+});
+
 </script>
 									<!--//btn-->
 								</div>

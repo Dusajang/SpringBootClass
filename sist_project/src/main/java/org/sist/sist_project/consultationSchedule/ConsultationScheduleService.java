@@ -66,4 +66,21 @@ public class ConsultationScheduleService {
         consultationScheduleRepository.deleteById(id);
     }
  	
+ 	// 예약 상태를 '취소'로 업데이트하는 메서드
+    public void cancelReservation(Integer id) {
+    	Optional<ConsultationSchedule> optionalSchedule = consultationScheduleRepository.findById(id);
+        
+        if (!optionalSchedule.isPresent()) {
+            throw new IllegalArgumentException("Invalid consultation schedule ID: " + id);
+        }
+
+        ConsultationSchedule schedule = optionalSchedule.get();
+
+        // 예약 상태를 '취소'로 변경
+        schedule.setReservationStatus(ReservationStatus.CANCELED);
+
+        // 변경된 상태를 저장
+        consultationScheduleRepository.save(schedule);
+    }
+ 	
 }

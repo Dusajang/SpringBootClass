@@ -1013,16 +1013,18 @@ $(document).ready(function(){
 										            th:text="${schedule.reservationStatus.description}"></td>
 										        <td></td>
 										        <td>
-										        <a href="javascript:void(0);" onclick="confirmDelete('[[${schedule.id}]]')">취소</a>
+										        <a id="cancel" href="javascript:void(0);" th:data-uri="@{|/consultation_cancel/${schedule.id}|}">취소</a>
 										        </td>
 										    </tr>
 										</tbody>
 <script>
-    function confirmDelete(id) {
-        if (confirm("정말로 이 예약을 취소하시겠습니까?")) {
-            location.href = `/consultations_delete/${id}`;
-        }
+// 취소 링크
+document.querySelector('#cancel').addEventListener('click', function () {
+    if (confirm("정말로 취소하시겠습니까?")) {
+        const uri = this.getAttribute('data-uri'); // data-uri 속성에서 URI 가져오기
+        location.href = uri; // 해당 URI로 이동
     }
+});
 </script>
 									</table>
 								</div>
