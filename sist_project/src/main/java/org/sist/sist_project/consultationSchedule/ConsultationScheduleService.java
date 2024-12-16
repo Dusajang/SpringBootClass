@@ -17,6 +17,15 @@ import lombok.RequiredArgsConstructor;
 public class ConsultationScheduleService {
 
     private final ConsultationScheduleRepository consultationScheduleRepository;
+    
+    // 상담 신청 처리...
+    public void saveSchedule(ConsultationSchedule consultationSchedule) {
+        // 예약 상태 기본값 처리
+        if (consultationSchedule.getReservationStatus() == null) {
+            consultationSchedule.setReservationStatus(ReservationStatus.CONFIRMED);
+        }
+        consultationScheduleRepository.save(consultationSchedule);
+    }
 
     //페이징 처리 X
     public List<ConsultationSchedule> getAllSchedules() {

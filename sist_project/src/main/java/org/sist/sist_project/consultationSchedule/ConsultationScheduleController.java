@@ -32,11 +32,26 @@ public class ConsultationScheduleController {
     
     // 방문상담 작성페이지 이동
     @GetMapping("/consultation_create")
-    public String create() {
-    	
+    public String consultationMove() {
     	return "consultation_create_test";
     }
     
+    // 방문상담 작성 처리...
+    @PostMapping("/consultation_create")
+    public String create(ConsultationSchedule consultationSchedule,
+            RedirectAttributes redirectAttributes) {
+    	try {
+            // 예약 저장 로직 수행
+            consultationScheduleService.saveSchedule(consultationSchedule);
+
+            // 성공 메시지 전달
+            redirectAttributes.addFlashAttribute("alertMessage", "예약이 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            // 실패 메시지 전달
+            redirectAttributes.addFlashAttribute("alertMessage", "예약 중 오류가 발생했습니다.");
+        }
+        return "redirect:/consultation_create"; // 예약 작성 페이지로 리다이렉트
+    }
     
     
     /* [1] 페이징 처리 X

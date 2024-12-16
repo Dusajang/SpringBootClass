@@ -723,6 +723,7 @@ window.onbeforeunload = function(){
         margin-top:10px;
     }
 </style>
+
 <script>
 
 function goSave(obj) {
@@ -735,11 +736,11 @@ function goSave(obj) {
 			$("input[name=email]").val($("input[name=email1]").val().trim()+"@"+$("[name=email2]").val().trim());
 		}
 	
-		if(!fn_spamCheck()){return false;}
+		//if(!fn_spamCheck()){return false;}
 		
 		var form = $("#frm");
 
-		fn_formSpanCheck(form,key);	
+		//fn_formSpanCheck(form,key);	
 		return true;	
 	}else{
 		return false;
@@ -1063,8 +1064,18 @@ function goSave(obj) {
     </script>
     <!-- sub_common // -->
     
+    <script>
+        // alertMessage가 있으면 alert로 출력
+        document.addEventListener("DOMContentLoaded", function () {
+            const alertMessage = '[[${alertMessage}]]';
+            if (alertMessage) {
+                alert(alertMessage);
+            }
+        });
+    </script>
+    
         <!-- 프로그램시작 Form 시작@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-        <form name="frm" id="frm" action="" method="post" onsubmit="return goSave(this);">
+        <form name="frm" id="frm" action="/consultation_create" method="post">
         <div class="sub_tit mt100">
             <h3>방문상담예약</h3>
         </div>
@@ -1073,47 +1084,139 @@ function goSave(obj) {
             <div class="writeForm writeForm_top" data-aos="fade-down" data-aos-delay="500">
                 <table>
                     <colgroup>
-                        
-                        
                     </colgroup>			
-                    <tbody><tr>
-                        
-                            <input type="hidden" name="hospital_fk" id="hospital_fk" value="1">
-                        
-                        
-                    </tr>
-                    
-                    
-                        <input type="hidden" name="doctor_fk" id="doctor_fk" value="1">
-                    
-                    
-                </tbody></table>
+                    <tbody>
+                    	<tr>
+                        	<input type="hidden" name="hospital_fk" id="hospital_fk" value="1">
+                        </tr>
+                    		<input type="hidden" name="doctor_fk" id="doctor_fk" value="1">
+	                </tbody>
+	            </table>
             </div>
             <!-- //join -->
             
     
     
   
-    <div class="calender_wrap">
-        <div class="schedule">
-            <label for="reserdate">예약 날짜</label>
-            <input type="text" id="reserdate" th:value="">
+            <div class="calender_wrap">
+                <div class="schedule">
+                    <label for="reserdate">예약 날짜</label>
+                    <input type="text" id="reserdate" name="reservationDate" value="날짜를 선택하세요." required>
+                </div>
+            </div>
+            <div class="r_Time">
+                <div class="schedule_time">
+                	<label class="minTitle">예약 시간 선택</label>
+                	<select class="sel_time" id="resertime" name="reservationTime" style="width: 200px;" required>
+                	</select>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+			<div class="schedule_text">
+			    <p>※ 방문희망 날짜와 시간은 교육센터 방문상담 일정에 따라 변경 될 수 있습니다</p>
+			</div>
+
+
+
+
+    
+
+
+            <div class="writeForm">
+                <table>
+                    <colgroup>
+                        <col class="writeForm_col01">
+                        <col width="*">
+                    </colgroup>
+                    <tbody><tr>
+                        <th><span class="col01">*</span>이름</th>
+                        <td>
+                            <input data-value="작성자를 입력해주세요." id="name" name="name" class="inputTxt inputName" type="text" value="" maxlength="20">
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th><span class="col01">*</span>비밀번호</th>
+                        <td>
+                            <input data-value="비밀번호를 입력해주세요." name="password" id="password" class="inputPass" type="password" maxlength="100">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>연락처</th>
+                        <td>
+                            <input type="text" name="tel" id="tel" value="" onkeyup="isNumberOrHyphen(this);" onblur="cvtUserPhoneNumber(this);" data-value="" maxlength="13">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="col01">*</span>휴대폰</th>
+                        <td>
+                            <input type="text" name="cell" id="cell" value="" onkeyup="isNumberOrHyphen(this);" onblur="cvtUserPhoneNumber(this);" data-value="휴대폰 번호를 입력해주세요." maxlength="13">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="col01">*</span>이메일</th>
+                        <td class="mail_type">
+                             <input type="email" id="email" name="email" value="" maxlength="100" required>
+                        </td>
+                    </tr>
+                   <tr>
+                        <th><span class="col01">*</span>전공유무</th>
+                        <td>
+                            <label>
+                                <input type="radio" name="edutype" value="MAJOR" required> 전공자
+                            </label>
+                            <label>
+                                <input type="radio" name="edutype" value="NON_MAJOR" required> 비전공자
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="col01">*</span>지점선택</th>
+                        <td>
+                            <label>
+                                <input type="radio" name="center" value="GANGNAM" required> 강남교육센터
+                            </label>
+                            <label>
+                                <input type="radio" name="center" value="GANGBUK" required> 강북교육센터
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>상담과목</th>
+                        <td>
+                            <label>
+                                <input type="radio" name="eduKind" value="EMPLOYED"> 재직자 교육과정
+                            </label>
+                            <label>
+                                <input type="radio" name="eduKind" value="JOB_SEEKER"> 취업 교육과정
+                            </label>
+                            <label>
+                                <input type="radio" name="eduKind" value="OTHER"> 기타 과정
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td>
+                            <textarea name="etc" id="etc" cols="30" rows="10" maxlength="500"></textarea>
+                        </td>
+                    </tr>
+                    
+                </tbody></table>
+            </div>
+            <div class="writeForm_btn">
+                <a href="javascript:;" id="w_btn" onclick="$('#frm').submit()">확인</a>
+                <a href="write.jsp?reqPageNo=1">취소</a>
+            </div>
+            <input type="hidden" name="email" id="email" value="">
+            
+            
         </div>
-    </div>
-    <div class="r_Time">
-        <h3 class="minTitle">예약 시간 선택</h3>
-		<div class="schedule_time">
-			<select class="sel_time">
-			</select>
-		</div>
-    </div>
-<div class="schedule_text">
-    <p>※ 방문희망 날짜와 시간은 교육센터 방문상담 일정에 따라 변경 될 수 있습니다</p>
-</div>
-
-
-
-<script>
+        </form>
+        <!-- 프로그램끝 Form 끝@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+    <script>
 $(document).ready(function () {
     // 내일 날짜 계산
     const today = new Date();
@@ -1131,8 +1234,8 @@ $(document).ready(function () {
 
     // 옵션 업데이트 함수
     function updateTimeOptions(selectedTime = null, reservedTimes = []) {
-        // 기존 옵션 제거
-        selectElement.innerHTML = '';
+		// 기존 옵션 제거
+		selectElement.innerHTML = '';
 
         // 새 옵션 추가
         timeOptions.forEach(time => {
@@ -1167,6 +1270,7 @@ $(document).ready(function () {
         });
     }
 
+
     // 날짜 선택 시 옵션 업데이트
     function updateOptionsOnDateSelect(selectedDate) {
         console.log('Selected date:', selectedDate);
@@ -1180,6 +1284,7 @@ $(document).ready(function () {
 		    minDate: new Date(),    // 오늘 이후 날짜만 선택 가능
 		    defaultDate: new Date(), // 초기 날짜를 오늘 날짜로 설정
 		    onSelectDate: function (ct) {
+		    	console.log('onSelectDate triggered:', ct); // 디버깅 로그 추가
 		        const selectedDate = ct.toLocaleDateString('en-CA'); // 로컬 날짜 가져오기
 		        console.log('Selected date:', selectedDate);
 		        
@@ -1207,124 +1312,17 @@ $(document).ready(function () {
     $('#reserdate').datetimepicker({
         format: 'Y-m-d', // 날짜 형식
         timepicker: false, // 시간 선택 비활성화
-        minDate: today, // 내일부터 선택 가능
+        minDate: tomorrow, // 내일부터 선택 가능
         onSelectDate: function (ct) {
             const selectedDate = ct.toISOString().split('T')[0]; // 선택된 날짜 포맷팅
             updateOptionsOnDateSelect(selectedDate); // 날짜 선택 시 옵션 업데이트 호출
         }
     });
 
-    // 초기 옵션 설정 호출
-    updateInitialOptions();
 });
 
-
-
-
-    
-    
-   
-   
-</script>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-            <div class="writeForm">
-                <table>
-                    <colgroup>
-                        <col class="writeForm_col01">
-                        <col width="*">
-                    </colgroup>
-                    <tbody><tr>
-                        <th><span class="col01">*</span>이름</th>
-                        <td>
-                            <input data-value="작성자를 입력해주세요." id="name" name="name" class="inputTxt inputName" type="text" value="송세호" maxlength="20">
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <th><span class="col01">*</span>비밀번호</th>
-                        <td>
-                            <input data-value="비밀번호를 입력해주세요." name="password" id="password" class="inputPass" type="password" maxlength="100">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>연락처</th>
-                        <td>
-                            
-                            <input type="text" name="tel" id="tel" value="" onkeyup="isNumberOrHyphen(this);" onblur="cvtUserPhoneNumber(this);" data-value="" maxlength="13">
-                            
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><span class="col01">*</span>휴대폰</th>
-                        <td>
-                            
-                            <input type="text" name="cell" id="cell" value="010-2854-0345" onkeyup="isNumberOrHyphen(this);" onblur="cvtUserPhoneNumber(this);" data-value="휴대폰 번호를 입력해주세요." maxlength="13">
-                            
-                            
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><span class="col01">*</span>이메일</th>
-                        <td class="mail_type">
-                            <input data-value="이메일을 입력해주세요." name="email1" id="email1" class="inputEmail" type="text" value="tlswjseks" maxlength="70"><span class="email_txt">@</span>
-                            <select class="selecEmail" name="email2" id="email2" data-value="이메일을 선택해주세요.">
-                                <option value="">선택해주세요.</option>
-                                <option value="직접 입력">직접 입력</option><option value="naver.com" selected="">naver.com</option><option value="daum.net">daum.net</option><option value="gmail.com">gmail.com</option><option value="hotmail.com">hotmail.com</option><option value="nate.com">nate.com</option><option value="korea.com">korea.com</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><span class="col01">*</span>전공유무</th>
-                        <td><label class="radio_custom"><input type="radio" name="edutype" value="1" data-value="전공유무를 선택해주세요."><span></span>전공자</label><label class="radio_custom"><input type="radio" name="edutype" value="2" data-value="전곧유무를 선택해주세요."><span></span>비전공자</label></td>
-                    </tr>
-                    <tr>
-                        <th><span class="col01">*</span>지점선택</th>
-                        <td><label class="radio_custom"><input type="radio" name="center" value="1" data-value="지점을 선택해주세요."><span></span>강남교육센터</label><label class="radio_custom"><input type="radio" name="center" value="2" data-value="지점을 선택해주세요."><span></span>강북교육센터</label></td>
-                    </tr>
-                    <tr>
-                        <th>상담과목</th>
-                        <td><label class="radio_custom"><input type="radio" name="eduKind" value="1"><span></span>재직자 교육과정</label><label class="radio_custom"><input type="radio" name="eduKind" value="2"><span></span>취업 교육과정</label><label class="radio_custom"><input type="radio" name="eduKind" value="3"><span></span>기타 과정</label></td>
-                    </tr>
-                    <tr>
-                        <th>내용</th>
-                        <td><textarea name="etc" id="etc" cols="30" rows="10"></textarea></td>
-                    </tr>
-                    
-                </tbody></table>
-            </div>
-            <div class="writeForm_btn">
-                <a href="javascript:;" id="w_btn" onclick="$('#frm').submit()">확인</a>
-                <a href="write.jsp?reqPageNo=1">취소</a>
-            </div>
-            <input type="hidden" name="cmd" id="cmd" value="write">
-            <input type="hidden" name="email" id="email" value="">
-            <input type="hidden" name="curMonth" id="curMonth" value="">
-            <input type="hidden" name="doctor_fk" id="doctor_fk" value="">
-            
-            <input type="hidden" name="member_fk" value="22324">
-            
-            
-        </div>
-        </form>
-        <!-- 프로그램끝 Form 끝@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-        
+ 
+</script>    
         
     
     

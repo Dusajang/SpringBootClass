@@ -9,9 +9,20 @@
 	<!-- 달력 변경 jquery.js 버젼업, datetimepicker.full.js 달력 js -->
 	<script src="/js/jquery.js"></script>
 	<script src="/js/jquery.datetimepicker.full.js"></script>
+	
+  <script>
+      // alertMessage가 있으면 alert로 출력
+      document.addEventListener("DOMContentLoaded", function () {
+          const alertMessage = '[[${alertMessage}]]';
+          if (alertMessage) {
+              alert(alertMessage);
+          }
+      });
+  </script>
+    
 </head>
 <body>
-    <form name="frm" id="frm" action="/consultation/save" method="post" onsubmit="return goSave(this);">
+    <form name="frm" id="frm" action="/consultation_create" method="post">
         <div class="sub_tit mt100">
             <h3>방문상담예약</h3>
         </div>
